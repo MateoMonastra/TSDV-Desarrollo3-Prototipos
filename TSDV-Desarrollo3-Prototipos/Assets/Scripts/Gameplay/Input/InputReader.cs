@@ -1,10 +1,13 @@
+using Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class InputReader : MonoBehaviour
 {
     [Tooltip("Component for controlling running behavior")]
-    public Running running;
+    public Running running; 
+    public VacuumCleaner vacuumCleaner;
 
     public void HandleMoveInput(InputAction.CallbackContext context)
     {
@@ -13,5 +16,13 @@ public class InputReader : MonoBehaviour
 
         if (running != null)
             running.SetDir(moveDirection);
+    }
+    
+    public void HandleVacuumCleanerInput(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            
+        }
     }
 }
