@@ -29,12 +29,11 @@ public class Running : MonoBehaviour
 
     public void Move()
     {
-        Vector3 movementDir = mainCameraPivot.right * dir.x + mainCameraPivot.forward * dir.z;
         counterMovement = new Vector3(-rb.velocity.x * counterMovementForce, 0, -rb.velocity.z * counterMovementForce);
 
-        transform.forward = Vector3.Lerp(transform.forward, movementDir, 0.4f);
+        transform.forward = Vector3.Lerp(transform.forward, dir, 0.4f);
 
-        rb.AddForce(movementDir.normalized * movementForce + counterMovement);
+        rb.AddForce(dir.normalized * movementForce + counterMovement);
     }
 
     public void SetDir(Vector3 newDir)
