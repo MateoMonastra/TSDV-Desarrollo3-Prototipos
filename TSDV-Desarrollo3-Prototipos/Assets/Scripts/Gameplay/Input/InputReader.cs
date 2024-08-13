@@ -20,9 +20,13 @@ public class InputReader : MonoBehaviour
     
     public void HandleVacuumCleanerInput(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.started)
         {
-            
+            vacuumCleaner.TurnOn();
+        }
+        else if (context.canceled)
+        {
+            vacuumCleaner.TurnOff();
         }
     }
 }
