@@ -953,7 +953,7 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &1167125130
@@ -968,8 +968,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e1c87078b4899d4187c8dd38cdc6ce9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementForce: 50
-  counterMovementForce: 5
+  _movementForce: 50
+  _counterMovementForce: 5
+  _rotationSpeed: 5
 --- !u!1 &1435655385
 GameObject:
   m_ObjectHideFlags: 0

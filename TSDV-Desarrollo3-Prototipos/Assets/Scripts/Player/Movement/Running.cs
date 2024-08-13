@@ -5,19 +5,19 @@ using UnityEngine;
 
 public class Running : MonoBehaviour
 {
-    private Rigidbody rb;
+    private Rigidbody _rb;
 
-    private Vector3 dir = Vector3.zero;
+    private Vector3 _dir = Vector3.zero;
 
-    [SerializeField] private float movementForce;
+    [SerializeField] private float _movementForce;
+    [SerializeField] private float _counterMovementForce;
+    [SerializeField] private float _rotationSpeed = 5;
 
-    [SerializeField] private float counterMovementForce;
-
-    private Vector3 counterMovement;
+    private Vector3 _counterMovement;
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody>();
+        _rb = GetComponent<Rigidbody>();
     }
 
     private void FixedUpdate()
@@ -25,17 +25,19 @@ public class Running : MonoBehaviour
         Move();
     }
 
-    public void Move()
+    private void Move()
     {
-        counterMovement = new Vector3(-rb.velocity.x * counterMovementForce, 0, -rb.velocity.z * counterMovementForce);
+        _counterMovement = new Vector3(-_rb.velocity.x * _counterMovementForce, 0, -_rb.velocity.z * _counterMovementForce);
 
-        transform.forward = Vector3.Lerp(transform.forward, dir, 0.4f);
+        _rb.AddForce(_dir.normalized * _movementForce + _counterMovement);
 
-        rb.AddForce(dir.normalized * movementForce + counterMovement);
+        float angle = Vector3.SignedAngle(transform.forward, _dir, transform.up);
+
+        transform.Rotate(transform.up, angle * Time.deltaTime * _rotationSpeed);
     }
 
     public void SetDir(Vector3 newDir)
     {
-        dir = newDir;
+        _dir = newDir;
     }
 }
