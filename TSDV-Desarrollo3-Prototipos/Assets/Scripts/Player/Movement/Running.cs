@@ -9,8 +9,6 @@ public class Running : MonoBehaviour
 
     private Vector3 dir = Vector3.zero;
 
-    [SerializeField] private Transform mainCameraPivot;
-
     [SerializeField] private float movementForce;
 
     [SerializeField] private float counterMovementForce;
