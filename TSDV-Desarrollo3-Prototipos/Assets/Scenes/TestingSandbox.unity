@@ -1060,6 +1060,7 @@ GameObject:
   - component: {fileID: 1167125125}
   - component: {fileID: 1167125130}
   - component: {fileID: 1167125129}
+  - component: {fileID: 1167125131}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1199,6 +1200,18 @@ MonoBehaviour:
   _movementForce: 50
   _counterMovementForce: 5
   _rotationSpeed: 5
+--- !u!114 &1167125131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1167125124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22b0d503e2764ee4abe6a4236984dec8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1435655385
 GameObject:
   m_ObjectHideFlags: 0
@@ -1950,7 +1963,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1970783180}
-  m_Layer: 0
+  - component: {fileID: 1970783182}
+  - component: {fileID: 1970783181}
+  m_Layer: 8
   m_Name: VacuumPoint
   m_TagString: Untagged
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
@@ -1972,6 +1987,39 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1804020674}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1970783181
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1970783179}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.0547719, y: 0.056122106, z: 0.027639411}
+  m_Center: {x: 0.018543482, y: 0.01611893, z: 0.031809166}
+--- !u!114 &1970783182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1970783179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73a0c8be838465941a19ba1b65a284cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

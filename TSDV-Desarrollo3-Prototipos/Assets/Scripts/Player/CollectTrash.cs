@@ -7,7 +7,8 @@ namespace Player
     {
         private void OnTriggerEnter(Collider other)
         {
-            other.enabled = false;
+            other.gameObject.SetActive(false);
+            Debug.Log("Trash was Collected");
         }
     }
 }
