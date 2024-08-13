@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -9,6 +10,7 @@ namespace Player
     {
         [SerializeField] private Transform target; 
         [SerializeField] private float speed;
+        [SerializeField] private LayerMask layerMask;
 
         private Collider _collider;
 
@@ -28,6 +30,10 @@ namespace Player
         
         private void OnTriggerStay(Collider other)
         {
+            if (Physics.Raycast(target.position,other.gameObject.transform.position,layerMask))
+            {
+                return;
+            }
             other.transform.position = Vector3.MoveTowards(other.transform.position, target.position, speed * Time.deltaTime);
         }
     }
