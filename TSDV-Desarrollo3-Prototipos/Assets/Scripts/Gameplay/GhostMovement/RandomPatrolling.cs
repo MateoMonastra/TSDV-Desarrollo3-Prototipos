@@ -10,6 +10,12 @@ public class RandomPatrolling : MonoBehaviour
 
     [SerializeField] private Transform _centrePoint;
 
+    [SerializeField] private Transform _player;
+
+    [SerializeField] private float _safeDistance = 6f;
+    [SerializeField] private float _patrolingSpeed = 4f;
+    [SerializeField] private float _fleeSpeed = 6f;
+
     private void Start()
     {
         _agent = GetComponent<NavMeshAgent>();
@@ -17,9 +23,20 @@ public class RandomPatrolling : MonoBehaviour
 
     private void Update()
     {
-        if(_agent.remainingDistance <= _agent.stoppingDistance)
+        float distance = Vector3.Distance(transform.position, _player.position);
+
+        if(distance < _safeDistance )
+        {
+            Vector3 directionToPlayer = transform.position - _player.position;
+            Vector3 fleeDirection = transform.position + directionToPlayer.normalized * _safeDistance;
+
+            _agent.speed = _fleeSpeed;
+            _agent.SetDestination(fleeDirection);
+        }
+        else if(_agent.remainingDistance <= _agent.stoppingDistance)
         {
             Vector3 point;
+            _agent.speed = _patrolingSpeed;
 
             if(RandomPoint(_centrePoint.position, _range, out point))
             {
