@@ -11,69 +11,79 @@ namespace Player
         [SerializeField] private float renderDistance = 5.0f;
         [SerializeField] private LayerMask wallLayer;
 
-        private Collider _collider;
+        private bool _isActive;
         private Vector3? _collision;
         private Ray _ray;
-        Quaternion left ;
-        Quaternion right ;
+        
+        private Quaternion _left ;
+        private Quaternion _right ;
 
-        Vector3     leftBoundary;
-        Vector3     rightBoundary;
+        private Vector3 _leftBoundary;
+        private Vector3 _rightBoundary;
         private void Start()
         {
-            _collider = GetComponent<Collider>();
-            
-            left = Quaternion.AngleAxis(-maxAngle, Vector3.up);
-            right = Quaternion.AngleAxis(maxAngle, Vector3.up);
-            leftBoundary = left * target.forward;
-            rightBoundary = right * target.forward;
-            transform.localScale = new Vector3(Mathf.Abs(((leftBoundary.x*2) * renderDistance) ), transform.localScale.y, transform.localScale.z);
+            _left = Quaternion.AngleAxis(-maxAngle, Vector3.up);
+            _right = Quaternion.AngleAxis(maxAngle, Vector3.up);
+            _leftBoundary = _left * target.forward;
+            _rightBoundary = _right * target.forward;
+            transform.localScale = new Vector3(Mathf.Abs(((_leftBoundary.x*2) * renderDistance) ), transform.localScale.y, transform.localScale.z);
         }
 
         public void TurnOn()
         {
-            _collider.isTrigger = true;
+            _isActive = true;
         }
 
         public void TurnOff()
         {
-            _collider.isTrigger = false;
+            _isActive = false;
         }
 
         private void OnTriggerStay(Collider other)
         {
+            VacuumObject(other);
+        }
+
+        private void VacuumObject(Collider other)
+        {
+            if (!_isActive) return;
+            
             var angleToObject = Vector3.Angle(target.forward, other.transform.position - target.position);
-            if (angleToObject <= maxAngle)
+            
+            if (!(angleToObject <= maxAngle)) return;
+            
+            _ray = new Ray(target.position,  other.transform.position - target.position);
+
+            if (Physics.Raycast(_ray, out var hit, renderDistance, wallLayer))
             {
-                _ray = new Ray(target.position,  other.transform.position - target.position);
-
-                if (Physics.Raycast(_ray, out RaycastHit hit, renderDistance, wallLayer))
-                {
-                    _collision = hit.point;
-                    return;
-                }
-
-                other.transform.position = Vector3.MoveTowards(other.transform.position, target.position,
-                    speed * Time.deltaTime);
-                _collision = null;
+                _collision = hit.point;
+                return;
             }
+
+            var rb = other.GetComponent<Rigidbody>();
+                
+            var direction = (target.position - other.transform.position).normalized;
+                
+            rb.AddForce(direction * speed, ForceMode.Impulse);
+                
+            _collision = null;
         }
 #if UNITY_EDITOR
 
         private void OnDrawGizmos()
         {
-            left = Quaternion.AngleAxis(-maxAngle, Vector3.up);
-            right = Quaternion.AngleAxis(maxAngle, Vector3.up);
-            leftBoundary = left * target.forward;
-            rightBoundary = right * target.forward;
+            _left = Quaternion.AngleAxis(-maxAngle, Vector3.up);
+            _right = Quaternion.AngleAxis(maxAngle, Vector3.up);
+            _leftBoundary = _left * target.forward;
+            _rightBoundary = _right * target.forward;
             
             
             Gizmos.color = Color.green;
             Gizmos.DrawLine(target.position, target.position + target.forward * renderDistance);
 
-            Gizmos.DrawLine(target.position, target.position + leftBoundary * renderDistance);
+            Gizmos.DrawLine(target.position, target.position + _leftBoundary * renderDistance);
 
-            Gizmos.DrawLine(target.position, target.position + rightBoundary * renderDistance);
+            Gizmos.DrawLine(target.position, target.position + _rightBoundary * renderDistance);
             Gizmos.DrawRay(_ray);
             if (_collision != null)
             {
