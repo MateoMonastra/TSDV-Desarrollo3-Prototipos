@@ -13,8 +13,8 @@ public class RandomPatrolling : MonoBehaviour
     [SerializeField] private Transform _player;
 
     [SerializeField] private float _safeDistance = 6f;
-    [SerializeField] private float _patrolingSpeed = 4f;
-    [SerializeField] private float _fleeSpeed = 6f;
+    [SerializeField] private float _patrolingSpeed = 3f;
+    [SerializeField] private float _fleeSpeed = 5f;
 
     private void Start()
     {
