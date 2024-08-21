@@ -44,7 +44,6 @@ namespace Gameplay.GhostMechanics
 
         private bool RandomPoint(Vector3 center, float range, out Vector3 result)
         {
-        
             Vector3 randomPoint = center + Random.insideUnitSphere * range;
 
             NavMeshHit hit;
@@ -88,17 +87,14 @@ namespace Gameplay.GhostMechanics
                 return;
 
             Debug.Log("fantasma aspirandose");
-            
             _isBeingVacuumed = true;
-            var navMeshAgent = gameObject.GetComponent<NavMeshAgent>();
-            navMeshAgent.enabled = false;
+            _agent.updatePosition = false;
         }
 
         public void StopBeingVacuumed()
         {
+            _agent.updatePosition = true;
             _isBeingVacuumed = false;
-            var navMeshAgent = gameObject.GetComponent<NavMeshAgent>();
-            navMeshAgent.enabled = true;
             Patrol();
         }
     }

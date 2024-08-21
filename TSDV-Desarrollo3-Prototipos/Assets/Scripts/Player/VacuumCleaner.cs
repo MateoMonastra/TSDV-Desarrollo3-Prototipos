@@ -15,9 +15,9 @@ namespace Player
         private bool _isActive;
         private Vector3? _collision;
         private Ray _ray;
-        
-        private Quaternion _left ;
-        private Quaternion _right ;
+
+        private Quaternion _left;
+        private Quaternion _right;
 
         private Vector3 _leftBoundary;
         private Vector3 _rightBoundary;
@@ -28,7 +28,7 @@ namespace Player
             _right = Quaternion.AngleAxis(maxAngle, Vector3.up);
             _leftBoundary = _left * target.forward;
             _rightBoundary = _right * target.forward;
-            transform.localScale = new Vector3(Mathf.Abs(((_leftBoundary.x*2) * renderDistance) ), transform.localScale.y, transform.localScale.z);
+            transform.localScale = new Vector3(Mathf.Abs(((_leftBoundary.x * 2) * renderDistance)), transform.localScale.y, transform.localScale.z);
         }
 
         public void TurnOn()
@@ -50,17 +50,17 @@ namespace Player
         {
             if (!_isActive)
             {
-                if(other.gameObject.layer == LayerMask.NameToLayer($"Ghost"))
+                if (other.gameObject.layer == LayerMask.NameToLayer($"Ghost"))
                 {
                     other.GetComponent<RandomPatrolling>().StopBeingVacuumed();
                 }
                 return;
             };
-            
+
             var angleToObject = Vector3.Angle(target.forward, other.transform.position - target.position);
-            
+
             if (!(angleToObject <= maxAngle)) return;
-            
+
             _ray = new Ray(target.position, other.transform.position - target.position);
 
             if (Physics.Raycast(_ray, out var hit, renderDistance, wallLayer))
@@ -69,17 +69,20 @@ namespace Player
                 return;
             }
 
-            if(other.gameObject.layer == LayerMask.NameToLayer($"Ghost"))
+            var rb = other.GetComponent<Rigidbody>();
+
+            var direction = (target.position - other.transform.position).normalized;
+
+            if (other.gameObject.layer == LayerMask.NameToLayer($"Ghost"))
             {
+                rb.AddForce(direction * speed, ForceMode.Impulse);
                 other.GetComponent<RandomPatrolling>().StartBeingVacuumed();
             }
+            else
+            {
+                rb.AddForce(direction * speed, ForceMode.Impulse);
+            }
 
-            var rb = other.GetComponent<Rigidbody>();
-                
-            var direction = (target.position - other.transform.position).normalized;
-                
-            rb.AddForce(direction * speed, ForceMode.Impulse);
-                
             _collision = null;
         }
 #if UNITY_EDITOR
@@ -90,8 +93,8 @@ namespace Player
             _right = Quaternion.AngleAxis(maxAngle, Vector3.up);
             _leftBoundary = _left * target.forward;
             _rightBoundary = _right * target.forward;
-            
-            
+
+
             Gizmos.color = Color.green;
             Gizmos.DrawLine(target.position, target.position + target.forward * renderDistance);
 
