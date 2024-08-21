@@ -20,6 +20,7 @@ namespace Player
 
         private Vector3 _leftBoundary;
         private Vector3 _rightBoundary;
+
         private void Start()
         {
             _left = Quaternion.AngleAxis(-maxAngle, Vector3.up);
@@ -44,6 +45,14 @@ namespace Player
             VacuumObject(other);
         }
 
+        private void OnTriggerExit(Collider other)
+        {
+            if(other.CompareTag("Ghost"))
+            {
+                other.GetComponent<RandomPatrolling>().StopBeingVacuumed();
+            }
+        }
+
         private void VacuumObject(Collider other)
         {
             if (!_isActive) return;
@@ -52,12 +61,17 @@ namespace Player
             
             if (!(angleToObject <= maxAngle)) return;
             
-            _ray = new Ray(target.position,  other.transform.position - target.position);
+            _ray = new Ray(target.position, other.transform.position - target.position);
 
             if (Physics.Raycast(_ray, out var hit, renderDistance, wallLayer))
             {
                 _collision = hit.point;
                 return;
+            }
+
+            if(other.CompareTag("Ghost"))
+            {
+                other.GetComponent<RandomPatrolling>().StartBeingVacuumed();
             }
 
             var rb = other.GetComponent<Rigidbody>();
