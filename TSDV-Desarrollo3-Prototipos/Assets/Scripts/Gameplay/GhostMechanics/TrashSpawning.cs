@@ -1,21 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class TrashSpawning : MonoBehaviour
+namespace Gameplay.GhostMechanics
 {
-    [SerializeField] private GameObject _prefab;
-    [SerializeField] private float _spawnInterval = 3f;
-    private float _timer;
-
-    void Update()
+    public class TrashSpawning : MonoBehaviour
     {
-        _timer += Time.deltaTime;
+        [SerializeField] private GameObject _prefab;
+        [SerializeField] private Transform spawnPoint;
+        [SerializeField] private float _spawnInterval = 3f;
+        private float _timer;
 
-        if (_timer >= _spawnInterval && !GetComponent<RandomPatrolling>().isBeingVacuumed)
+        void Update()
         {
-            Instantiate(_prefab, transform.position, Quaternion.identity);
-            _timer = 0f;
+            _timer += Time.deltaTime;
+
+            if (_timer >= _spawnInterval && !GetComponent<RandomPatrolling>()._isBeingVacuumed)
+            {
+                Instantiate(_prefab, spawnPoint.position, Quaternion.identity);
+                _timer = 0f;
+            }
         }
     }
 }

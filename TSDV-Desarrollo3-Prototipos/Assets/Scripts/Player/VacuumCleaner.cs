@@ -1,4 +1,5 @@
 using System;
+using Gameplay.GhostMechanics;
 using UnityEngine;
 
 namespace Player
@@ -45,17 +46,16 @@ namespace Player
             VacuumObject(other);
         }
 
-        private void OnTriggerExit(Collider other)
-        {
-            if(other.CompareTag("Ghost"))
-            {
-                other.GetComponent<RandomPatrolling>().StopBeingVacuumed();
-            }
-        }
-
         private void VacuumObject(Collider other)
         {
-            if (!_isActive) return;
+            if (!_isActive)
+            {
+                if(other.gameObject.layer == LayerMask.NameToLayer($"Ghost"))
+                {
+                    other.GetComponent<RandomPatrolling>().StopBeingVacuumed();
+                }
+                return;
+            };
             
             var angleToObject = Vector3.Angle(target.forward, other.transform.position - target.position);
             
@@ -69,7 +69,7 @@ namespace Player
                 return;
             }
 
-            if(other.CompareTag("Ghost"))
+            if(other.gameObject.layer == LayerMask.NameToLayer($"Ghost"))
             {
                 other.GetComponent<RandomPatrolling>().StartBeingVacuumed();
             }

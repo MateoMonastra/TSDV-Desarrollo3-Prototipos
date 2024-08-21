@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 18546678}
   - component: {fileID: 18546677}
   - component: {fileID: 18546676}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Obstacle1 (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -606,7 +606,7 @@ GameObject:
   - component: {fileID: 325368319}
   - component: {fileID: 325368318}
   - component: {fileID: 325368317}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Obstacle1 (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -711,7 +711,7 @@ GameObject:
   - component: {fileID: 326088888}
   - component: {fileID: 326088887}
   - component: {fileID: 326088886}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Obstacle1 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -727,7 +727,7 @@ Transform:
   m_GameObject: {fileID: 326088884}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -21.4, y: 3.04, z: -4.07}
+  m_LocalPosition: {x: -21.44, y: 3.04, z: -4.07}
   m_LocalScale: {x: 0.70427173, y: 2.6915243, z: 13.43661}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -921,7 +921,7 @@ GameObject:
   - component: {fileID: 355374039}
   - component: {fileID: 355374038}
   - component: {fileID: 355374037}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Obstacle1 (17)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1026,7 +1026,7 @@ GameObject:
   - component: {fileID: 383810652}
   - component: {fileID: 383810651}
   - component: {fileID: 383810650}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Obstacle1 (12)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1309,6 +1309,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _prefab: {fileID: 8798102915467191045, guid: a42fa224b0e8d3b45ae32a454bfb2e0f, type: 3}
+  spawnPoint: {fileID: 1135668666}
   _spawnInterval: 3
 --- !u!114 &556391334
 MonoBehaviour:
@@ -1329,6 +1330,7 @@ MonoBehaviour:
   _safeDistance: 5
   _patrolingSpeed: 4
   _fleeSpeed: 8
+  _isBeingVacuumed: 0
 --- !u!195 &556391335
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1349,7 +1351,7 @@ NavMeshAgent:
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: 1
-  m_WalkableMask: 4294967295
+  m_WalkableMask: 3
   m_ObstacleAvoidanceType: 4
 --- !u!54 &556391336
 Rigidbody:
@@ -1376,7 +1378,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 112
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!136 &556391337
 CapsuleCollider:
@@ -1463,7 +1465,8 @@ Transform:
   m_LocalPosition: {x: -33.29, y: 1.19, z: -28.67}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1135668666}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &561770904
@@ -1478,7 +1481,7 @@ GameObject:
   - component: {fileID: 561770908}
   - component: {fileID: 561770907}
   - component: {fileID: 561770906}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Obstacle1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1583,7 +1586,7 @@ GameObject:
   - component: {fileID: 643778831}
   - component: {fileID: 643778830}
   - component: {fileID: 643778829}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Obstacle1 (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1743,6 +1746,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _prefab: {fileID: 8798102915467191045, guid: a42fa224b0e8d3b45ae32a454bfb2e0f, type: 3}
+  spawnPoint: {fileID: 1510497211}
   _spawnInterval: 3
 --- !u!114 &748683882
 MonoBehaviour:
@@ -1763,6 +1767,7 @@ MonoBehaviour:
   _safeDistance: 5
   _patrolingSpeed: 4
   _fleeSpeed: 8
+  _isBeingVacuumed: 0
 --- !u!195 &748683883
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1783,7 +1788,7 @@ NavMeshAgent:
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: 1
-  m_WalkableMask: 4294967295
+  m_WalkableMask: 3
   m_ObstacleAvoidanceType: 4
 --- !u!54 &748683884
 Rigidbody:
@@ -1810,7 +1815,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 112
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!136 &748683885
 CapsuleCollider:
@@ -1897,7 +1902,8 @@ Transform:
   m_LocalPosition: {x: 9.75, y: 1.19, z: -13.96}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1510497211}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &771688876
@@ -2406,7 +2412,7 @@ GameObject:
   - component: {fileID: 1060342690}
   - component: {fileID: 1060342689}
   - component: {fileID: 1060342688}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Obstacle1 (11)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2511,7 +2517,7 @@ GameObject:
   - component: {fileID: 1063782494}
   - component: {fileID: 1063782493}
   - component: {fileID: 1063782492}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Obstacle1 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2680,6 +2686,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1071566373}
   m_CullTransparentMesh: 1
+--- !u!1 &1135668665
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1135668666}
+  m_Layer: 7
+  m_Name: TrashSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1135668666
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1135668665}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.2620001, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 556391340}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1174465168
 GameObject:
   m_ObjectHideFlags: 0
@@ -3133,7 +3170,7 @@ GameObject:
   - component: {fileID: 1298756788}
   - component: {fileID: 1298756787}
   - component: {fileID: 1298756786}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Obstacle1 (14)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3371,7 +3408,7 @@ GameObject:
   - component: {fileID: 1338219081}
   - component: {fileID: 1338219080}
   - component: {fileID: 1338219079}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Obstacle1 (19)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3476,7 +3513,7 @@ GameObject:
   - component: {fileID: 1361363889}
   - component: {fileID: 1361363888}
   - component: {fileID: 1361363887}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Obstacle1 (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3569,6 +3606,99 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1361363885}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1496947262
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1496947263}
+  m_Layer: 7
+  m_Name: TrashSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1496947263
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1496947262}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.2620001, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1826842551}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1510497210
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1510497211}
+  m_Layer: 7
+  m_Name: TrashSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1510497211
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1510497210}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.2620001, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 748683888}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1543351294
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1543351295}
+  m_Layer: 7
+  m_Name: TrashSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1543351295
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1543351294}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.262, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1745656578}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1543450307
 GameObject:
   m_ObjectHideFlags: 0
@@ -3747,7 +3877,7 @@ GameObject:
   - component: {fileID: 1565649359}
   - component: {fileID: 1565649358}
   - component: {fileID: 1565649357}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Obstacle1 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3985,7 +4115,7 @@ GameObject:
   - component: {fileID: 1640672997}
   - component: {fileID: 1640672996}
   - component: {fileID: 1640672995}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Obstacle1 (18)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4090,7 +4220,7 @@ GameObject:
   - component: {fileID: 1650459508}
   - component: {fileID: 1650459507}
   - component: {fileID: 1650459506}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Obstacle1 (15)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4428,7 +4558,7 @@ NavMeshAgent:
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: 1
-  m_WalkableMask: 4294967295
+  m_WalkableMask: 3
   m_ObstacleAvoidanceType: 4
 --- !u!54 &1745656574
 Rigidbody:
@@ -4455,7 +4585,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 112
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!136 &1745656575
 CapsuleCollider:
@@ -4542,7 +4672,8 @@ Transform:
   m_LocalPosition: {x: -17.1, y: 1.19, z: -4.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1543351295}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1745656579
@@ -4564,6 +4695,7 @@ MonoBehaviour:
   _safeDistance: 5
   _patrolingSpeed: 4
   _fleeSpeed: 8
+  _isBeingVacuumed: 0
 --- !u!114 &1745656580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4577,6 +4709,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _prefab: {fileID: 8798102915467191045, guid: a42fa224b0e8d3b45ae32a454bfb2e0f, type: 3}
+  spawnPoint: {fileID: 1543351295}
   _spawnInterval: 3
 --- !u!1 &1748567231
 GameObject:
@@ -4810,6 +4943,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _prefab: {fileID: 8798102915467191045, guid: a42fa224b0e8d3b45ae32a454bfb2e0f, type: 3}
+  spawnPoint: {fileID: 1496947263}
   _spawnInterval: 3
 --- !u!114 &1826842545
 MonoBehaviour:
@@ -4830,6 +4964,7 @@ MonoBehaviour:
   _safeDistance: 5
   _patrolingSpeed: 4
   _fleeSpeed: 8
+  _isBeingVacuumed: 0
 --- !u!195 &1826842546
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -4850,7 +4985,7 @@ NavMeshAgent:
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: 1
-  m_WalkableMask: 4294967295
+  m_WalkableMask: 3
   m_ObstacleAvoidanceType: 4
 --- !u!54 &1826842547
 Rigidbody:
@@ -4877,7 +5012,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 112
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!136 &1826842548
 CapsuleCollider:
@@ -4964,7 +5099,8 @@ Transform:
   m_LocalPosition: {x: -21.76, y: 1.19, z: -18.92}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1496947263}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1863988969
@@ -4979,7 +5115,7 @@ GameObject:
   - component: {fileID: 1863988973}
   - component: {fileID: 1863988972}
   - component: {fileID: 1863988971}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Obstacle3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5084,7 +5220,7 @@ GameObject:
   - component: {fileID: 1934636670}
   - component: {fileID: 1934636669}
   - component: {fileID: 1934636668}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Obstacle1 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5189,7 +5325,7 @@ GameObject:
   - component: {fileID: 1938547747}
   - component: {fileID: 1938547746}
   - component: {fileID: 1938547745}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Obstacle1 (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5294,7 +5430,7 @@ GameObject:
   - component: {fileID: 1999755626}
   - component: {fileID: 1999755625}
   - component: {fileID: 1999755624}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Obstacle1 (16)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5466,7 +5602,7 @@ GameObject:
   - component: {fileID: 2102653214}
   - component: {fileID: 2102653213}
   - component: {fileID: 2102653212}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Obstacle1 (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
