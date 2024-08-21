@@ -12,7 +12,7 @@ public class TrashSpawning : MonoBehaviour
     {
         _timer += Time.deltaTime;
 
-        if (_timer >= _spawnInterval)
+        if (_timer >= _spawnInterval && !GetComponent<RandomPatrolling>().isBeingVacuumed)
         {
             Instantiate(_prefab, transform.position, Quaternion.identity);
             _timer = 0f;
