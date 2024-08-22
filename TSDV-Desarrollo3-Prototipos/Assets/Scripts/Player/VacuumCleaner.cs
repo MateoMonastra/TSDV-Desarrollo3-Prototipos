@@ -13,6 +13,7 @@ namespace Player
         [SerializeField] private LayerMask wallLayer;
 
         private bool _isActive;
+        [SerializeField] private GameObject tornado;
         private Vector3? _collision;
         private Ray _ray;
 
@@ -28,17 +29,20 @@ namespace Player
             _right = Quaternion.AngleAxis(maxAngle, Vector3.up);
             _leftBoundary = _left * target.forward;
             _rightBoundary = _right * target.forward;
-            transform.localScale = new Vector3(Mathf.Abs(((_leftBoundary.x * 2) * renderDistance)), transform.localScale.y, transform.localScale.z);
+            transform.localScale = new Vector3(Mathf.Abs(((_leftBoundary.x * 2) * renderDistance)),
+                transform.localScale.y, transform.localScale.z);
         }
 
         public void TurnOn()
         {
             _isActive = true;
+            tornado.SetActive(true);
         }
 
         public void TurnOff()
         {
             _isActive = false;
+            tornado.SetActive(false);
         }
 
         private void OnTriggerStay(Collider other)
@@ -54,8 +58,11 @@ namespace Player
                 {
                     other.GetComponent<RandomPatrolling>().StopBeingVacuumed();
                 }
+
                 return;
-            };
+            }
+
+            ;
 
             var angleToObject = Vector3.Angle(target.forward, other.transform.position - target.position);
 

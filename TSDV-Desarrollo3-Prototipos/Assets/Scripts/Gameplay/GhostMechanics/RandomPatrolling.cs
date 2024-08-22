@@ -47,7 +47,12 @@ namespace Gameplay.GhostMechanics
             Vector3 randomPoint = center + Random.insideUnitSphere * range;
 
             NavMeshHit hit;
-
+            
+            // NavMeshPath path;
+            // _agent.CalculatePath(randomPoint, path);
+            // path.status = NavMeshPathStatus.PathComplete;
+            // _agent.SetDestination(randomPoint);
+            // _agent.pathStatus = NavMeshPathStatus.PathComplete;
             if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas))
             {
                 result = hit.position;
@@ -67,6 +72,7 @@ namespace Gameplay.GhostMechanics
             Vector3 fleeDirection = transform.position + directionToPlayer.normalized * _safeDistance;
 
             _agent.speed = _fleeSpeed;
+            //TODO: Should be using _agent.Move();
             _agent.SetDestination(fleeDirection);
         }
 
