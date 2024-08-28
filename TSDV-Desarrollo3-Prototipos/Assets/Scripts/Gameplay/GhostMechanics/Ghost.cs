@@ -1,45 +1,45 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using UnityEngine;
 
-public class Ghost : MonoBehaviour
+namespace Gameplay.GhostMechanics
 {
-    public float timeToRotate = 2f; 
-    private float _timer = 0f;
-    public float angleRange = 90f;
-    public int hp = 100;
-    private Rigidbody _rb;
+    public class Ghost : MonoBehaviour
+    {
+        public float timeToRotate = 2f; 
+        private float _timer = 0f;
+        public float angleRange = 90f;
+        public float hp = 100.0f;
+        private Rigidbody _rb;
     
-    void Start()
-    {
-        _rb = GetComponent<Rigidbody>();
-    }
-
-    void Update()
-    {
-        //Movimiento del fantasma
-
-        _timer += Time.deltaTime;
-
-        if (_timer > timeToRotate)
+        void Start()
         {
-            ChangeRotation();
-            _timer -= timeToRotate;
+            _rb = GetComponent<Rigidbody>();
         }
 
-        transform.Translate(transform.forward * Time.deltaTime);
-    }
+        void Update()
+        {
+            //Movimiento del fantasma
 
-    void ChangeRotation()
-    {
-        float randomAngle = Random.Range(-angleRange/2, angleRange/2);
+            _timer += Time.deltaTime;
 
-        Vector3 rot = transform.rotation.eulerAngles;
+            if (_timer > timeToRotate)
+            {
+                ChangeRotation();
+                _timer -= timeToRotate;
+            }
 
-        rot.y += randomAngle;
+            transform.Translate(transform.forward * Time.deltaTime);
+        }
 
-        _rb.transform.rotation = Quaternion.Euler(rot);
+        void ChangeRotation()
+        {
+            float randomAngle = Random.Range(-angleRange/2, angleRange/2);
 
+            Vector3 rot = transform.rotation.eulerAngles;
+
+            rot.y += randomAngle;
+
+            _rb.transform.rotation = Quaternion.Euler(rot);
+
+        }
     }
 }

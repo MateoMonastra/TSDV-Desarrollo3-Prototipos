@@ -1,17 +1,27 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
-public class StruggleChallenge : Challenge
+namespace Gameplay.GhostMechanics
 {
-    public StruggleChallenge(int newDamageAmount = 10, float newDamageThreshold = 10, float newDamageTick = 1.0f)
+    public class StruggleChallenge : Challenge
     {
-        damageAmount = newDamageAmount; 
-        damageThreshold = newDamageThreshold;
-        damageTick = newDamageTick; 
-    }
-    public override void Interact()
-    {
-        
+        public StruggleChallenge(int newDamageAmount = 10, float newDamageThreshold = 10, float newDamageTick = 1.0f)
+        {
+            damageAmount = newDamageAmount;
+            damageThreshold = newDamageThreshold;
+            damageTick = newDamageTick;
+        }
+
+        public override void Interact(Ghost ghost)
+        {
+            
+        }
+
+        public override void OnEnd()
+        {
+        }
     }
 }

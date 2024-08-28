@@ -6,11 +6,15 @@ namespace Player
 {
     public class VacuumCleaner : MonoBehaviour
     {
+        public Action OnVacuumGhost;
+        
         [SerializeField] private Transform target;
         [SerializeField] private float speed;
         [SerializeField] private float maxAngle = 45.0f;
         [SerializeField] private float renderDistance = 5.0f;
         [SerializeField] private LayerMask wallLayer;
+        
+        [SerializeField] private ChallengeManager challengeManager;
 
         private bool _isActive;
         [SerializeField] private GameObject tornado;
@@ -56,7 +60,7 @@ namespace Player
             {
                 if (other.gameObject.layer == LayerMask.NameToLayer($"Ghost"))
                 {
-                    other.GetComponent<RandomPatrolling>().StopBeingVacuumed();
+                    // other.GetComponent<RandomPatrolling>().StopBeingVacuumed();
                 }
 
                 return;
@@ -73,14 +77,19 @@ namespace Player
                 _collision = hit.point;
                 return;
             }
-
+            
             var rb = other.GetComponent<Rigidbody>();
 
             var direction = (target.position - other.transform.position).normalized;
 
             if (other.gameObject.layer == LayerMask.NameToLayer($"Ghost"))
             {
-                rb.AddForce(direction * speed, ForceMode.Impulse);
+                // rb.AddForce(direction * speed, ForceMode.Impulse);
+                var ghost = other.GetComponent<Ghost>();
+                var challenge = challengeManager.GetRandomChallenge();
+                
+                ghost.hp -= challenge.damageAmount * Time.deltaTime;
+                
                 other.GetComponent<RandomPatrolling>().StartBeingVacuumed();
             }
             else
