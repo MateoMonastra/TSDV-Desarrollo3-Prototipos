@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 public class InputReader : MonoBehaviour
 {
     [Tooltip("Component for controlling running behavior")]
-    public Running running; 
+    public Running running;
     public VacuumCleaner vacuumCleaner;
 
     public void HandleMoveInput(InputAction.CallbackContext context)
@@ -15,9 +15,9 @@ public class InputReader : MonoBehaviour
         Vector3 moveDirection = new Vector3(moveInput.x, 0, moveInput.y);
 
         if (running != null)
-            running.SetDir(moveDirection);
+            running.SetDir(moveDirection, Input.GetMouseButton(0));
     }
-    
+
     public void HandleVacuumCleanerInput(InputAction.CallbackContext context)
     {
         if (context.started)

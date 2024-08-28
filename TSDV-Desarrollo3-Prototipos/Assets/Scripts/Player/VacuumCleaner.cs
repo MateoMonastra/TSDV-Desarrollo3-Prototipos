@@ -36,13 +36,13 @@ namespace Player
         public void TurnOn()
         {
             _isActive = true;
-            tornado.SetActive(true);
+            //tornado.SetActive(true);
         }
 
         public void TurnOff()
         {
             _isActive = false;
-            tornado.SetActive(false);
+            //tornado.SetActive(false);
         }
 
         private void OnTriggerStay(Collider other)
@@ -61,8 +61,6 @@ namespace Player
 
                 return;
             }
-
-            ;
 
             var angleToObject = Vector3.Angle(target.forward, other.transform.position - target.position);
 

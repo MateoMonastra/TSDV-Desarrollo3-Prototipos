@@ -8,10 +8,12 @@ public class Running : MonoBehaviour
     private Rigidbody _rb;
 
     private Vector3 _dir = Vector3.zero;
+    private bool _isClickPressed = false;
 
     [SerializeField] private float _movementForce;
     [SerializeField] private float _counterMovementForce;
     [SerializeField] private float _rotationSpeed = 5;
+    [SerializeField] private LayerMask layerRaycast;
 
     private Vector3 _counterMovement;
 
@@ -33,7 +35,17 @@ public class Running : MonoBehaviour
 
         float angle = Vector3.SignedAngle(transform.forward, _dir, transform.up);
 
-        transform.Rotate(transform.up, angle * Time.deltaTime * _rotationSpeed);
+        if (!_isClickPressed)
+        {
+            transform.Rotate(transform.up, angle * Time.deltaTime * _rotationSpeed);
+        }
+    }
+
+    public void SetDir(Vector3 newDir, bool shouldRot)
+    {
+        _dir = newDir;
+
+        _isClickPressed = shouldRot;
     }
 
     public void SetDir(Vector3 newDir)
