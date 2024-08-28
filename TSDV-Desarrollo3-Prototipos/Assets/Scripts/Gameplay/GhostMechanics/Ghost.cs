@@ -8,6 +8,7 @@ public class Ghost : MonoBehaviour
     public float timeToRotate = 2f; 
     private float _timer = 0f;
     public float angleRange = 90f;
+    public int hp = 100;
     private Rigidbody _rb;
     
     void Start()
