@@ -9,13 +9,12 @@ public class PlayerInterface : MonoBehaviour
     [SerializeField] private LayerMask layerRaycast;
     [SerializeField] private float _rotationSpeed = 5;
     [SerializeField] private MeshRenderer _vacuumAreaMeshRenderer = null;
-
+    
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         bool _mouseClicking = Input.GetMouseButton(0);
@@ -45,9 +44,7 @@ public class PlayerInterface : MonoBehaviour
             Quaternion targetRotation = Quaternion.Euler(0f, rotationAngle, 0f);
 
             transform.rotation = targetRotation;
-
         }
     }
-
 }
 

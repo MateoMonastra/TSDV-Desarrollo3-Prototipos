@@ -11,6 +11,7 @@ namespace Player
         [SerializeField] private float maxAngle = 45.0f;
         [SerializeField] private float renderDistance = 5.0f;
         [SerializeField] private LayerMask wallLayer;
+        [SerializeField] private Transform player;
 
         private bool _isActive;
         [SerializeField] private GameObject tornado;
@@ -23,6 +24,16 @@ namespace Player
         private Vector3 _leftBoundary;
         private Vector3 _rightBoundary;
 
+        private bool _isVacuumingGhost;
+
+        public float timeToRotate = 2f;
+        private float _timer = 0f;
+        public float angleRange = 90f;
+        public int hp = 100;
+
+        [SerializeField] private Rigidbody _rb;
+
+
         private void Start()
         {
             _left = Quaternion.AngleAxis(-maxAngle, Vector3.up);
@@ -31,6 +42,22 @@ namespace Player
             _rightBoundary = _right * target.forward;
             transform.localScale = new Vector3(Mathf.Abs(((_leftBoundary.x * 2) * renderDistance)),
                 transform.localScale.y, transform.localScale.z);
+        }
+
+        void Update()
+        {
+            if ((_isVacuumingGhost))
+            {
+                _timer += Time.deltaTime;
+
+                if (_timer > timeToRotate)
+                {
+                    ChangeRotation();
+                    _timer -= timeToRotate;
+                }
+
+                player.transform.Translate(transform.forward * Time.deltaTime);
+            }
         }
 
         public void TurnOn()
@@ -56,40 +83,65 @@ namespace Player
             {
                 if (other.gameObject.layer == LayerMask.NameToLayer($"Ghost"))
                 {
-                    other.GetComponent<RandomPatrolling>().StopBeingVacuumed();
+                    //other.GetComponent<RandomPatrolling>().StopBeingVacuumed();
                 }
 
                 return;
             }
 
-            var angleToObject = Vector3.Angle(target.forward, other.transform.position - target.position);
+            _isVacuumingGhost = (other.gameObject.layer == LayerMask.NameToLayer($"Ghost"));
 
-            if (!(angleToObject <= maxAngle)) return;
-
-            _ray = new Ray(target.position, other.transform.position - target.position);
-
-            if (Physics.Raycast(_ray, out var hit, renderDistance, wallLayer))
+            if (!_isVacuumingGhost)
             {
-                _collision = hit.point;
-                return;
-            }
+                var angleToObject = Vector3.Angle(target.forward, other.transform.position - target.position);
 
-            var rb = other.GetComponent<Rigidbody>();
+                if (!(angleToObject <= maxAngle)) return;
 
-            var direction = (target.position - other.transform.position).normalized;
+                _ray = new Ray(target.position, other.transform.position - target.position);
 
-            if (other.gameObject.layer == LayerMask.NameToLayer($"Ghost"))
-            {
+                if (Physics.Raycast(_ray, out var hit, renderDistance, wallLayer))
+                {
+                    _collision = hit.point;
+                    return;
+                }
+
+                var rb = other.GetComponent<Rigidbody>();
+
+                var direction = (target.position - other.transform.position).normalized;
+
+                //if (other.gameObject.layer == LayerMask.NameToLayer($"Ghost"))
+                //{
+                //    //rb.AddForce(direction * speed, ForceMode.Impulse);
+                //    //other.GetComponent<RandomPatrolling>().StartBeingVacuumed();
+
+                //    _isVacuumingGhost = true;
+                //}
+                //else
+                //{
+
                 rb.AddForce(direction * speed, ForceMode.Impulse);
-                other.GetComponent<RandomPatrolling>().StartBeingVacuumed();
+
+                //}
+
+                _collision = null;
             }
             else
             {
-                rb.AddForce(direction * speed, ForceMode.Impulse);
+                other.gameObject.transform.SetParent(player);
             }
-
-            _collision = null;
         }
+
+        void ChangeRotation()
+        {
+            float randomAngle = UnityEngine.Random.Range(-angleRange / 2, angleRange / 2);
+
+            Vector3 rot = player.transform.rotation.eulerAngles;
+
+            rot.y += randomAngle;
+
+            _rb.transform.rotation = Quaternion.Euler(rot);
+        }
+
 #if UNITY_EDITOR
 
         private void OnDrawGizmos()

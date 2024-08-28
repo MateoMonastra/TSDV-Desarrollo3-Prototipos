@@ -10,7 +10,7 @@ public class StruggleChallenge : Challenge
         damageThreshold = newDamageThreshold;
         damageTick = newDamageTick; 
     }
-    public override void Interact()
+    public override void Interact() //chequear la direccion del fantasma comparada con la del input
     {
         
     }

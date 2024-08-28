@@ -20,26 +20,28 @@ public class Ghost : MonoBehaviour
     {
         //Movimiento del fantasma
 
-        _timer += Time.deltaTime;
+        //_timer += Time.deltaTime;
 
-        if (_timer > timeToRotate)
-        {
-            ChangeRotation();
-            _timer -= timeToRotate;
-        }
+        //if (_timer > timeToRotate)
+        //{
+        //    ChangeRotation();
+        //    _timer -= timeToRotate;
+        //}
 
-        transform.Translate(transform.forward * Time.deltaTime);
-    }
+        //transform.Translate(transform.forward * Time.deltaTime);
 
-    void ChangeRotation()
-    {
-        float randomAngle = Random.Range(-angleRange/2, angleRange/2);
-
-        Vector3 rot = transform.rotation.eulerAngles;
-
-        rot.y += randomAngle;
-
-        _rb.transform.rotation = Quaternion.Euler(rot);
 
     }
+
+    //void ChangeRotation()
+    //{
+    //    float randomAngle = Random.Range(-angleRange/2, angleRange/2);
+
+    //    Vector3 rot = transform.rotation.eulerAngles;
+
+    //    rot.y += randomAngle;
+
+    //    _rb.transform.rotation = Quaternion.Euler(rot);
+
+    //}
 }
