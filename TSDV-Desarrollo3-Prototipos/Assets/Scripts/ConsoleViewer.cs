@@ -8,7 +8,7 @@ public class ConsoleViewer : MonoBehaviour
 
     private void Start()
     {
-        //Application.targetFrameRate = 60;
+        Application.targetFrameRate = 60;
         // QualitySettings.vSyncCount = 0;
     }
 

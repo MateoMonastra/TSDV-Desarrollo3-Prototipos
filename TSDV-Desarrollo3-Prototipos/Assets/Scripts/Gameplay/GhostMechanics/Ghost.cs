@@ -9,37 +9,34 @@ namespace Gameplay.GhostMechanics
         public float angleRange = 90f;
         public float hp = 100.0f;
         private Rigidbody _rb;
+
+        private Transform _holder;
+                Rigidbody rigidbody1 ;
     
         void Start()
         {
             _rb = GetComponent<Rigidbody>();
         }
 
-        void Update()
+        public void SetPoint(Transform holder)
         {
-            //Movimiento del fantasma
-
-            _timer += Time.deltaTime;
-
-            if (_timer > timeToRotate)
+           _holder = holder;
+           if(holder != null)
             {
-                ChangeRotation();
-                _timer -= timeToRotate;
+                rigidbody1 =holder.GetComponent<Rigidbody>();
+                GetComponent<SpringJoint>().connectedBody = rigidbody1;
             }
-
-            transform.Translate(transform.forward * Time.deltaTime);
+           else {
+                GetComponent<SpringJoint>().connectedBody = null;
+                rigidbody1 = null;
+            }
         }
-
-        void ChangeRotation()
+        public void LateUpdate()
         {
-            float randomAngle = Random.Range(-angleRange/2, angleRange/2);
-
-            Vector3 rot = transform.rotation.eulerAngles;
-
-            rot.y += randomAngle;
-
-            _rb.transform.rotation = Quaternion.Euler(rot);
-
+           if(_holder != null)
+           {
+                _rb.AddForce(Vector3.one *Time.deltaTime, ForceMode.Impulse);
+           }
         }
     }
 }

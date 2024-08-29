@@ -27,6 +27,9 @@ namespace Player
         private Vector3 _leftBoundary;
         private Vector3 _rightBoundary;
 
+        [SerializeField] private Transform _ghostHolder;
+        public bool isCapturingGhost;
+
         private void Start()
         {
             _left = Quaternion.AngleAxis(-maxAngle, Vector3.up);
@@ -47,11 +50,19 @@ namespace Player
         {
             _isActive = false;
             //tornado.SetActive(false);
+            isCapturingGhost = false;
         }
 
         private void OnTriggerStay(Collider other)
         {
             VacuumObject(other);
+        }
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.gameObject.layer == LayerMask.NameToLayer($"Ghost"))
+            {
+                other.GetComponent<Ghost>().SetPoint(null);
+            }
         }
 
         private void VacuumObject(Collider other)
@@ -77,6 +88,8 @@ namespace Player
                 _collision = hit.point;
                 return;
             }
+
+            isCapturingGhost = (other.gameObject.layer == LayerMask.NameToLayer($"Ghost"));
             
             var rb = other.GetComponent<Rigidbody>();
 
@@ -85,12 +98,15 @@ namespace Player
             if (other.gameObject.layer == LayerMask.NameToLayer($"Ghost"))
             {
                 // rb.AddForce(direction * speed, ForceMode.Impulse);
-                var ghost = other.GetComponent<Ghost>();
-                var challenge = challengeManager.GetRandomChallenge();
+                //var ghost = other.GetComponent<Ghost>();
+                //var challenge = challengeManager.GetRandomChallenge();
                 
-                ghost.hp -= challenge.damageAmount * Time.deltaTime;
+                //ghost.hp -= challenge.damageAmount * Time.deltaTime;
                 
-                other.GetComponent<RandomPatrolling>().StartBeingVacuumed();
+                //other.GetComponent<RandomPatrolling>().StartBeingVacuumed();
+
+                //other.transform.position = _ghostHolder.transform.position;
+                other.GetComponent<Ghost>().SetPoint(_ghostHolder);
             }
             else
             {

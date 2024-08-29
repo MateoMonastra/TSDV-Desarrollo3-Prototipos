@@ -1,3 +1,4 @@
+using Player;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,9 @@ public class PlayerInterface : MonoBehaviour
     [SerializeField] private float _rotationSpeed = 5;
     [SerializeField] private MeshRenderer _vacuumAreaMeshRenderer = null;
 
+    private bool _mouseClicking;
+    private bool _isCapturingGhost;
+
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
@@ -18,15 +22,24 @@ public class PlayerInterface : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        bool _mouseClicking = Input.GetMouseButton(0);
+        _mouseClicking = Input.GetMouseButton(0);
+        _isCapturingGhost = GetComponentInChildren<VacuumCleaner>().isCapturingGhost;
 
         _vacuumAreaMeshRenderer.enabled = _mouseClicking;
 
-        if (_mouseClicking)
+        if (!_isCapturingGhost)
         {
-            ChangeRotation();    
-        }
+            GetComponent<RandomRotation>().enabled = false;
 
+            if (_mouseClicking)
+            {
+                ChangeRotation();
+            }
+        }
+        else
+        {
+            GetComponent<RandomRotation>().enabled = true;
+        }
     }
 
     void ChangeRotation()
@@ -36,7 +49,7 @@ public class PlayerInterface : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerRaycast))
         {
-            Debug.Log("Raycast hit: " + hit.collider.gameObject.name);
+            //Debug.Log("Raycast hit: " + hit.collider.gameObject.name);
             Vector3 targetPosition = new Vector3(hit.point.x, transform.position.y, hit.point.z);
 
             Vector3 direction = targetPosition - transform.position;
@@ -45,7 +58,6 @@ public class PlayerInterface : MonoBehaviour
             Quaternion targetRotation = Quaternion.Euler(0f, rotationAngle, 0f);
 
             transform.rotation = targetRotation;
-
         }
     }
 
