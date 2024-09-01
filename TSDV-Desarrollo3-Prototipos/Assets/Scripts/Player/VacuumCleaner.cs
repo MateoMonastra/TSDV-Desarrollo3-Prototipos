@@ -1,5 +1,6 @@
 using System;
 using Gameplay.GhostMechanics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Player
@@ -27,7 +28,8 @@ namespace Player
         private Vector3 _leftBoundary;
         private Vector3 _rightBoundary;
 
-        [SerializeField] private Transform _ghostHolder;
+        //[SerializeField] private Transform _ghostHolder;
+        [SerializeField] private Transform _playerParent;
         public bool isCapturingGhost;
 
         private void Start()
@@ -61,7 +63,7 @@ namespace Player
         {
             if (other.gameObject.layer == LayerMask.NameToLayer($"Ghost"))
             {
-                other.GetComponent<Ghost>().SetPoint(null);
+                //other.GetComponent<Ghost>().SetPoint(null);
             }
         }
 
@@ -72,6 +74,7 @@ namespace Player
                 if (other.gameObject.layer == LayerMask.NameToLayer($"Ghost"))
                 {
                     // other.GetComponent<RandomPatrolling>().StopBeingVacuumed();
+                    other.transform.SetParent(null);
                 }
 
                 return;
@@ -100,13 +103,17 @@ namespace Player
                 // rb.AddForce(direction * speed, ForceMode.Impulse);
                 //var ghost = other.GetComponent<Ghost>();
                 //var challenge = challengeManager.GetRandomChallenge();
-                
+
                 //ghost.hp -= challenge.damageAmount * Time.deltaTime;
-                
+
                 //other.GetComponent<RandomPatrolling>().StartBeingVacuumed();
 
                 //other.transform.position = _ghostHolder.transform.position;
-                other.GetComponent<Ghost>().SetPoint(_ghostHolder);
+                //other.GetComponent<Ghost>().SetPoint(_ghostHolder);
+
+                other.transform.SetParent(_playerParent);
+                //other.transform.localRotation = Quaternion.identity;
+
             }
             else
             {

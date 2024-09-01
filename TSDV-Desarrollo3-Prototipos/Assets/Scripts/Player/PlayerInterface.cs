@@ -6,8 +6,14 @@ namespace Player
     {
         //Running etc
         private Rigidbody _rb;
+
         [SerializeField] private LayerMask layerRaycast;
         [SerializeField] private MeshRenderer vacuumAreaMeshRenderer = null;
+
+        private Vector3 _originalPosition;
+        public float struggleSpeed = 2.0f;
+        public float struggleAmplitude = 0.1f;
+        public float struggleTime = 0f;
 
         private bool _mouseClicking;
         private bool _isCapturingGhost;
@@ -27,6 +33,7 @@ namespace Player
 
             if (!_isCapturingGhost)
             {
+                struggleTime = 0f;
                 GetComponent<RandomRotation>().enabled = false;
 
                 if (_mouseClicking)
@@ -36,7 +43,10 @@ namespace Player
             }
             else
             {
+                struggleTime += Time.deltaTime * struggleSpeed;
+                _originalPosition = transform.localPosition;
                 GetComponent<RandomRotation>().enabled = true;
+                transform.localPosition = _originalPosition + transform.forward * Mathf.Sin(Time.time * struggleSpeed) * struggleAmplitude;
             }
         }
 

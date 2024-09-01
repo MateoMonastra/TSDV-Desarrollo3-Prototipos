@@ -8,30 +8,32 @@ namespace Gameplay.GhostMechanics
         private Rigidbody _rb;
 
         private Transform _holder;
-    
+
         void Start()
         {
             _rb = GetComponent<Rigidbody>();
         }
 
-        public void SetPoint(Transform holder)
-        {
-           _holder = holder;
-           
-           if(holder != null)
-           {
-               GetComponent<SpringJoint>().connectedBody = holder.GetComponent<Rigidbody>();
-           }
-           else {
-                GetComponent<SpringJoint>().connectedBody = null;
-           }
-        }
-        public void LateUpdate()
-        {
-           if(_holder != null)
-           {
-                _rb.AddForce(Vector3.one *Time.deltaTime, ForceMode.Impulse);
-           }
-        }
+        //public void SetPoint(Transform holder)
+        //{
+        //    _holder = holder;
+
+        //    if (holder != null)
+        //    {
+        //        GetComponent<SpringJoint>().connectedBody = holder.GetComponent<Rigidbody>();
+        //    }
+        //    else
+        //    {
+        //        GetComponent<SpringJoint>().connectedBody = null;
+        //    }
+        //}
+
+        //public void LateUpdate()
+        //{
+        //    if (_holder != null)
+        //    {
+        //        _rb.AddForce(Vector3.one * Time.deltaTime, ForceMode.Impulse);
+        //    }
+        //}
     }
 }

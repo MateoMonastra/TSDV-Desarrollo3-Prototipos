@@ -14,7 +14,7 @@ public class InputReader : MonoBehaviour
         Vector2 moveInput = context.ReadValue<Vector2>();
         Vector3 moveDirection = new Vector3(moveInput.x, 0, moveInput.y);
 
-        if (running != null)
+        if (running != null && !vacuumCleaner.isCapturingGhost)
             running.SetDir(moveDirection, Input.GetMouseButton(0));
     }
 
