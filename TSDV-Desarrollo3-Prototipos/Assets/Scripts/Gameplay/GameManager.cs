@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Gameplay.GhostMechanics;
+using Player;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
