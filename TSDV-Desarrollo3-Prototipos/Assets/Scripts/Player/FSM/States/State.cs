@@ -8,30 +8,30 @@ namespace Player.FSM.States
         public List<Transition> transitions = new();
         public Action OnEnter;
         public Action OnTick;
+        public Action OnFixedTick;
         public Action OnExit;
 
-        public virtual void Enter()
+        public virtual void Enter(params object[] args)
             => OnEnter.Invoke();
 
         public virtual void Tick(float delta)
             => OnTick.Invoke();
 
+        public virtual void FixedTick(float delta)
+            => OnFixedTick.Invoke();
+        
         public virtual void Exit()
             => OnExit.Invoke();
 
-        private bool TryGetTransition(State toCandidate,
-            out Transition transition)
+        public bool TryGetTransition(Transition transition)
         {
             foreach (var transitionCandidate in transitions)
             {
-                if (transitionCandidate.To == toCandidate)
+                if (transitionCandidate == transition)
                 {
-                    transition = transitionCandidate;
                     return true;
                 }
             }
-
-            transition = null;
             return false;
         }
     }

@@ -4,28 +4,37 @@ using UnityEngine;
 
 namespace Player.FSM
 {
-    public class FSM : MonoBehaviour
+    public class Fsm
     {
-        List<State> states;
+        private List<State> _states;
 
-        State current;
+        public State Current;
 
-        public FSM(List<State> states)
+        public Fsm(List<State> states, State current)
         {
-            this.states = states;
+            _states = states;
+            Current = current;
         }
 
         public void Update()
         {
-            current.Tick(Time.deltaTime);
+            Current.Tick(Time.deltaTime);
+        }
+        
+        public void FixedUpdate()
+        {
+            Current.Tick(Time.deltaTime);
         }
    
         public void ApplyTransition(Transition transition)
         {
             if (transition == null) return;
-            
-            transition.From.Exit();
-            transition.To.Enter();
+
+            if (Current.TryGetTransition(transition))
+            {
+                transition.From.Exit();
+                transition.To.Enter();
+            }
         }
     }
 }
