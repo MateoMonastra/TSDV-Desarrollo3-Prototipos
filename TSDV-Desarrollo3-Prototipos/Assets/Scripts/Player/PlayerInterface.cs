@@ -18,9 +18,12 @@ namespace Player
         private bool _mouseClicking;
         private bool _isCapturingGhost;
 
+        private bool _resetDirection;
+
         void Start()
         {
             _rb = GetComponent<Rigidbody>();
+            _resetDirection = false;
         }
 
         // Update is called once per frame
@@ -34,7 +37,15 @@ namespace Player
             if (!_isCapturingGhost)
             {
                 struggleTime = 0f;
+
                 GetComponent<RandomRotation>().enabled = false;
+                GetComponent<Running>().enabled = true;
+
+                if (_resetDirection)
+                {
+                    GetComponent<Running>().SetDir(Vector3.zero);
+                    _resetDirection = false;
+                }
 
                 if (_mouseClicking)
                 {
@@ -43,10 +54,12 @@ namespace Player
             }
             else
             {
+                GetComponent<Running>().enabled = false;
                 struggleTime += Time.deltaTime * struggleSpeed;
                 _originalPosition = transform.localPosition;
                 GetComponent<RandomRotation>().enabled = true;
-                transform.localPosition = _originalPosition + transform.forward * Mathf.Sin(Time.time * struggleSpeed) * struggleAmplitude;
+                transform.localPosition = _originalPosition + transform.forward * Mathf.Sin(struggleTime) * struggleAmplitude;
+                _resetDirection = true;
             }
         }
 
@@ -59,7 +72,6 @@ namespace Player
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerRaycast))
             {
-                //Debug.Log("Raycast hit: " + hit.collider.gameObject.name);
                 Vector3 targetPosition = new Vector3(hit.point.x, transform.position.y, hit.point.z);
 
                 Vector3 direction = targetPosition - transform.position;

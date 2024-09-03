@@ -8,13 +8,13 @@ namespace Player
     public class VacuumCleaner : MonoBehaviour
     {
         public Action OnVacuumGhost;
-        
+
         [SerializeField] private Transform target;
         [SerializeField] private float speed;
         [SerializeField] private float maxAngle = 45.0f;
         [SerializeField] private float renderDistance = 5.0f;
         [SerializeField] private LayerMask wallLayer;
-        
+
         [SerializeField] private ChallengeManager challengeManager;
 
         private bool _isActive;
@@ -32,6 +32,10 @@ namespace Player
         [SerializeField] private Transform _playerParent;
         public bool isCapturingGhost;
 
+        [SerializeField] private GameObject ADMinigame;
+        private bool _wonCapture = false;
+        private Collider ghost;
+
         private void Start()
         {
             _left = Quaternion.AngleAxis(-maxAngle, Vector3.up);
@@ -40,6 +44,25 @@ namespace Player
             _rightBoundary = _right * target.forward;
             transform.localScale = new Vector3(Mathf.Abs(((_leftBoundary.x * 2) * renderDistance)),
                 transform.localScale.y, transform.localScale.z);
+
+            ADMinigame.GetComponentInChildren<ADMinigame>().OnWin += HandleWin;
+            ADMinigame.GetComponentInChildren<ADMinigame>().OnLose += VacuumCleaner_OnLose;
+        }
+
+        private void VacuumCleaner_OnLose()
+        {
+            _wonCapture = false;
+            ghost.GetComponent<Rigidbody>().AddRelativeForce(transform.forward * 40, ForceMode.Impulse);
+            ghost.transform.SetParent(null);
+            TurnOff();
+            ADMinigame.SetActive(false);
+        }
+
+        private void HandleWin()
+        {
+            _wonCapture = true;
+
+            ADMinigame.SetActive(false);
         }
 
         public void TurnOn()
@@ -59,12 +82,10 @@ namespace Player
         {
             VacuumObject(other);
         }
+
         private void OnTriggerExit(Collider other)
         {
-            if (other.gameObject.layer == LayerMask.NameToLayer($"Ghost"))
-            {
-                //other.GetComponent<Ghost>().SetPoint(null);
-            }
+
         }
 
         private void VacuumObject(Collider other)
@@ -73,7 +94,6 @@ namespace Player
             {
                 if (other.gameObject.layer == LayerMask.NameToLayer($"Ghost"))
                 {
-                    // other.GetComponent<RandomPatrolling>().StopBeingVacuumed();
                     other.transform.SetParent(null);
                 }
 
@@ -93,26 +113,22 @@ namespace Player
             }
 
             isCapturingGhost = (other.gameObject.layer == LayerMask.NameToLayer($"Ghost"));
-            
+
             var rb = other.GetComponent<Rigidbody>();
 
             var direction = (target.position - other.transform.position).normalized;
 
             if (other.gameObject.layer == LayerMask.NameToLayer($"Ghost"))
             {
-                // rb.AddForce(direction * speed, ForceMode.Impulse);
-                //var ghost = other.GetComponent<Ghost>();
-                //var challenge = challengeManager.GetRandomChallenge();
-
-                //ghost.hp -= challenge.damageAmount * Time.deltaTime;
-
-                //other.GetComponent<RandomPatrolling>().StartBeingVacuumed();
-
-                //other.transform.position = _ghostHolder.transform.position;
-                //other.GetComponent<Ghost>().SetPoint(_ghostHolder);
-
                 other.transform.SetParent(_playerParent);
-                //other.transform.localRotation = Quaternion.identity;
+                ADMinigame.SetActive(true);
+                ghost = other;
+
+                if (_wonCapture)
+                {
+                    rb.AddForce(direction * speed, ForceMode.Impulse);
+                    isCapturingGhost = false;
+                }
 
             }
             else
@@ -130,7 +146,6 @@ namespace Player
             _right = Quaternion.AngleAxis(maxAngle, Vector3.up);
             _leftBoundary = _left * target.forward;
             _rightBoundary = _right * target.forward;
-
 
             Gizmos.color = Color.green;
             Gizmos.DrawLine(target.position, target.position + target.forward * renderDistance);
