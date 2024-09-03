@@ -11,17 +11,13 @@ namespace Player.FSM.States
         public Action OnFixedTick;
         public Action OnExit;
 
-        public virtual void Enter(params object[] args)
-            => OnEnter.Invoke();
+        public virtual void Enter() => OnEnter?.Invoke();
 
-        public virtual void Tick(float delta)
-            => OnTick.Invoke();
+        public virtual void Tick(float delta) => OnTick?.Invoke();
 
-        public virtual void FixedTick(float delta)
-            => OnFixedTick.Invoke();
-        
-        public virtual void Exit()
-            => OnExit.Invoke();
+        public virtual void FixedTick(float delta) => OnFixedTick?.Invoke();
+
+        public virtual void Exit() => OnExit?.Invoke();
 
         public bool TryGetTransition(Transition transition)
         {
@@ -32,6 +28,7 @@ namespace Player.FSM.States
                     return true;
                 }
             }
+
             return false;
         }
     }

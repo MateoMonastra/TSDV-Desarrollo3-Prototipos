@@ -8,33 +8,38 @@ namespace Player.FSM
     {
         private List<State> _states;
 
-        public State Current;
+        private State _current;
 
         public Fsm(List<State> states, State current)
         {
             _states = states;
-            Current = current;
+            _current = current;
         }
 
         public void Update()
         {
-            Current.Tick(Time.deltaTime);
+            _current.Tick(Time.deltaTime);
+            Debug.Log(_current);
         }
-        
+
         public void FixedUpdate()
         {
-            Current.Tick(Time.deltaTime);
+            _current.FixedTick(Time.deltaTime);
         }
-   
+
         public void ApplyTransition(Transition transition)
         {
             if (transition == null) return;
+            if (!_current.TryGetTransition(transition)) return;
+            
+            transition.From.Exit();
+            transition.To.Enter();
+            _current = transition.To;
+        }
 
-            if (Current.TryGetTransition(transition))
-            {
-                transition.From.Exit();
-                transition.To.Enter();
-            }
+        public State GetCurrentState()
+        {
+            return _current;
         }
     }
 }

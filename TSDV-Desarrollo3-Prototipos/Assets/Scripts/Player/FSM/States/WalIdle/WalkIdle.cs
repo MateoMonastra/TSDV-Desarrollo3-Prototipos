@@ -19,9 +19,8 @@ namespace Player.FSM.States.WalIdle
             _gameObject = gameObject;
             _model = model;
         }
-        public override void Enter(params object[] args)
+        public override void Enter()
         {
-            SetDir((Vector3)args[0], (bool)args[1]);
         }
 
         public override void Tick(float delta)
@@ -52,7 +51,7 @@ namespace Player.FSM.States.WalIdle
             }
         }
 
-        private void SetDir(Vector3 newDir, bool shouldRot)
+        public void SetDir(Vector3 newDir, bool shouldRot)
         {
             _dir = newDir;
 

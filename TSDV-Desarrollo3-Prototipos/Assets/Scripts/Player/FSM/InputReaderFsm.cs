@@ -8,7 +8,7 @@ namespace Player.FSM
     {
         public Action<Vector2,bool> OnMove;
         public Action OnVacuumStarted;
-        public Action OffVacuumEnded;
+        public Action OnVacuumEnded;
 
         public void HandleMoveInput(InputAction.CallbackContext context)
         {
@@ -19,11 +19,11 @@ namespace Player.FSM
         {
             if (context.started)
             {
-                OnVacuumStarted.Invoke();
+                OnVacuumStarted?.Invoke();
             }
             else if (context.canceled)
             {
-                OffVacuumEnded.Invoke();
+                OnVacuumEnded?.Invoke();
             }
         }
     }
