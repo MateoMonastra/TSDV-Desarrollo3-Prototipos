@@ -1037,6 +1037,9 @@ MonoBehaviour:
   _playerParent: {fileID: 1379249227}
   isCapturingGhost: 0
   ADMinigame: {fileID: 1040368584}
+  character: {fileID: 0}
+  areaSize: {x: 30, y: 30}
+  areaCenter: {x: -8, y: -5}
 --- !u!65 &427589707
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2730,7 +2733,7 @@ Transform:
   m_GameObject: {fileID: 1017896877}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -12, y: 3.04, z: -32.77}
+  m_LocalPosition: {x: -16.7, y: 3.04, z: -32.77}
   m_LocalScale: {x: 0.70427173, y: 2.6915243, z: 55.820065}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3602,7 +3605,7 @@ Transform:
   m_GameObject: {fileID: 1195875999}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 3.17, y: 3.04, z: 12.77}
+  m_LocalPosition: {x: 8, y: 3.04, z: 12.77}
   m_LocalScale: {x: 0.70427173, y: 2.6915243, z: 23.91126}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4549,6 +4552,7 @@ GameObject:
   - component: {fileID: 1471860537}
   - component: {fileID: 1471860542}
   - component: {fileID: 1471860541}
+  - component: {fileID: 1471860543}
   m_Layer: 7
   m_Name: Ghost
   m_TagString: Untagged
@@ -4691,6 +4695,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1471860543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1471860536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f93ac8f0039e07d45b227e49700a4477, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 100
 --- !u!1 &1508089492
 GameObject:
   m_ObjectHideFlags: 0
@@ -4719,7 +4736,7 @@ Transform:
   m_GameObject: {fileID: 1508089492}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -24.52, y: 3.04, z: 8.63}
+  m_LocalPosition: {x: -29, y: 3.04, z: 8.63}
   m_LocalScale: {x: 0.70427173, y: 2.6915243, z: 31.968822}
   m_ConstrainProportionsScale: 0
   m_Children: []

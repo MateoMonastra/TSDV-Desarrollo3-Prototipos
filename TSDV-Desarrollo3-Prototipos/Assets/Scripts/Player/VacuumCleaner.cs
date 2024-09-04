@@ -28,13 +28,15 @@ namespace Player
         private Vector3 _leftBoundary;
         private Vector3 _rightBoundary;
 
-        //[SerializeField] private Transform _ghostHolder;
         [SerializeField] private Transform _playerParent;
         public bool isCapturingGhost;
 
         [SerializeField] private GameObject ADMinigame;
         private bool _wonCapture = false;
         private Collider ghost;
+
+        public Vector2 areaSize; 
+        public Vector2 areaCenter;
 
         private void Start()
         {
@@ -46,16 +48,19 @@ namespace Player
                 transform.localScale.y, transform.localScale.z);
 
             ADMinigame.GetComponentInChildren<ADMinigame>().OnWin += HandleWin;
-            ADMinigame.GetComponentInChildren<ADMinigame>().OnLose += VacuumCleaner_OnLose;
+            ADMinigame.GetComponentInChildren<ADMinigame>().OnLose += HandleLose;
         }
 
-        private void VacuumCleaner_OnLose()
+        private void HandleLose()
         {
             _wonCapture = false;
-            ghost.GetComponent<Rigidbody>().AddRelativeForce(transform.forward * 40, ForceMode.Impulse);
+            TeleportCharacter(ghost);
             ghost.transform.SetParent(null);
             TurnOff();
+            isCapturingGhost = false;
             ADMinigame.SetActive(false);
+
+            ghost.GetComponent<Ghost>().IsBeingVacuumed = false;
         }
 
         private void HandleWin()
@@ -63,6 +68,10 @@ namespace Player
             _wonCapture = true;
 
             ADMinigame.SetActive(false);
+
+            ghost.GetComponent<Ghost>().IsBeingVacuumed = true;
+
+            isCapturingGhost = false;
         }
 
         public void TurnOn()
@@ -76,16 +85,16 @@ namespace Player
             _isActive = false;
             //tornado.SetActive(false);
             isCapturingGhost = false;
+
+            ADMinigame.GetComponentInChildren<ADMinigame>().ResetMinigame();
+            ADMinigame.SetActive(false);
+
+            ghost.GetComponent<Ghost>().IsBeingVacuumed = false;
         }
 
         private void OnTriggerStay(Collider other)
         {
             VacuumObject(other);
-        }
-
-        private void OnTriggerExit(Collider other)
-        {
-
         }
 
         private void VacuumObject(Collider other)
@@ -112,16 +121,18 @@ namespace Player
                 return;
             }
 
-            isCapturingGhost = (other.gameObject.layer == LayerMask.NameToLayer($"Ghost"));
-
             var rb = other.GetComponent<Rigidbody>();
 
             var direction = (target.position - other.transform.position).normalized;
 
-            if (other.gameObject.layer == LayerMask.NameToLayer($"Ghost"))
+            if (other.gameObject.layer == LayerMask.NameToLayer($"Ghost") && !other.GetComponent<Ghost>().IsBeingVacuumed)
             {
+                isCapturingGhost = true;
+
                 other.transform.SetParent(_playerParent);
+                
                 ADMinigame.SetActive(true);
+
                 ghost = other;
 
                 if (_wonCapture)
@@ -129,7 +140,6 @@ namespace Player
                     rb.AddForce(direction * speed, ForceMode.Impulse);
                     isCapturingGhost = false;
                 }
-
             }
             else
             {
@@ -138,6 +148,17 @@ namespace Player
 
             _collision = null;
         }
+
+        void TeleportCharacter(Collider other)
+        {
+            float randomX = UnityEngine.Random.Range(areaCenter.x - areaSize.x / 2, areaCenter.x + areaSize.x / 2);
+            float randomY = UnityEngine.Random.Range(areaCenter.y - areaSize.y / 2, areaCenter.y + areaSize.y / 2);
+
+            Vector3 randomPosition = new Vector3(randomX, other.transform.position.y, randomY);
+
+            other.transform.position = randomPosition;
+        }
+
 #if UNITY_EDITOR
 
         private void OnDrawGizmos()

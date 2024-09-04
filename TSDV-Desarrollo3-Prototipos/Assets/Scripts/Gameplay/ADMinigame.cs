@@ -26,15 +26,18 @@ public class ADMinigame : MonoBehaviour
 
     private void OnEnable()
     {
+        progressBar = GetComponent<Image>();
         _hasStarted = false;
-        decreaseRate = 0.2f;
-        increaseAmount = 0.05f;
-        maxProgress = 1f;
-        minProgress = 0f;
+        progressBar.fillAmount = minProgress;
     }
 
     void Update()
     {
+        if(!_hasStarted)
+        {
+            progressBar.fillAmount = minProgress;
+        }
+        
         if (_hasStarted)
         {
             progressBar.fillAmount -= decreaseRate * Time.deltaTime;
@@ -60,14 +63,20 @@ public class ADMinigame : MonoBehaviour
         }
     }
 
-    void WinGame()
+    private void WinGame()
     {
         OnWin?.Invoke();
     }
 
-    void LoseGame()
+    private void LoseGame()
     {
         OnLose?.Invoke();
+    }
+
+    public void ResetMinigame()
+    {
+        progressBar.fillAmount = minProgress;
+        _hasStarted = false;
     }
 }
 
