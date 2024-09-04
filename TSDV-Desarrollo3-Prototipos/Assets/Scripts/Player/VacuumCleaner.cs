@@ -1,4 +1,5 @@
 using System;
+using Gameplay;
 using Gameplay.GhostMechanics;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -33,7 +34,10 @@ namespace Player
         public bool isCapturingGhost;
 
         [SerializeField] private GameObject ADMinigameObj;
+        [SerializeField] private GameObject SkillcheckMinigameObj;
+
         private bool _wonCapture = false;
+        private bool _wonSkillcheckCapture = false;
         private Collider ghost;
 
         public Vector2 areaSize;
@@ -48,11 +52,37 @@ namespace Player
             transform.localScale = new Vector3(Mathf.Abs(((_leftBoundary.x * 2) * renderDistance)),
                 transform.localScale.y, transform.localScale.z);
 
-            ADMinigameObj.GetComponentInChildren<ADMinigame>().OnWin += HandleWin;
-            ADMinigameObj.GetComponentInChildren<ADMinigame>().OnLose += HandleLose;
+            ADMinigameObj.GetComponentInChildren<ADMinigame>().OnWin += HandleADWin;
+            ADMinigameObj.GetComponentInChildren<ADMinigame>().OnLose += HandleADLose;
+
+            SkillcheckMinigameObj.GetComponent<SkillCheck>().OnWin += HandleSkillcheckWin;
+            SkillcheckMinigameObj.GetComponent<SkillCheck>().OnLose += HandleSkillcheckLose;
         }
 
-        private void HandleLose()
+        private void HandleSkillcheckLose()
+        {
+            _wonSkillcheckCapture = false;
+            TeleportCharacter(ghost);
+            ghost.transform.SetParent(null);
+            TurnOff();
+            isCapturingGhost = false;
+            SkillcheckMinigameObj.SetActive(false);
+
+            ghost.GetComponent<Ghost>().IsBeingVacuumed = false;
+        }
+
+        private void HandleSkillcheckWin()
+        {
+            _wonSkillcheckCapture = true;
+
+            SkillcheckMinigameObj.SetActive(false);
+
+            ghost.GetComponent<Ghost>().IsBeingVacuumed = true;
+
+            isCapturingGhost = false;
+        }
+
+        private void HandleADLose()
         {
             _wonCapture = false;
             TeleportCharacter(ghost);
@@ -64,7 +94,7 @@ namespace Player
             ghost.GetComponent<Ghost>().IsBeingVacuumed = false;
         }
 
-        private void HandleWin()
+        private void HandleADWin()
         {
             _wonCapture = true;
 
@@ -87,8 +117,10 @@ namespace Player
             //tornado.SetActive(false);
             isCapturingGhost = false;
 
-            ADMinigameObj.GetComponentInChildren<ADMinigame>().ResetMinigame();
-            ADMinigameObj.SetActive(false);
+            //ADMinigameObj.GetComponentInChildren<ADMinigame>().ResetMinigame();
+            //ADMinigameObj.SetActive(false);
+
+            SkillcheckMinigameObj.SetActive(false);
 
             if (ghost)
             {
@@ -136,15 +168,24 @@ namespace Player
 
                 other.transform.SetParent(_playerParent);
 
-                ADMinigameObj.SetActive(true);
+                //ADMinigameObj.SetActive(true);
+                SkillcheckMinigameObj.SetActive(true);
 
                 ghost = other;
 
-                if (_wonCapture)
+                if(_wonSkillcheckCapture)
                 {
                     rb.AddForce(direction * speed, ForceMode.Impulse);
                     isCapturingGhost = false;
                 }
+
+                //if (_wonCapture)
+                //{
+                //    rb.AddForce(direction * speed, ForceMode.Impulse);
+                //    isCapturingGhost = false;
+                //}
+
+
             }
             else
             {

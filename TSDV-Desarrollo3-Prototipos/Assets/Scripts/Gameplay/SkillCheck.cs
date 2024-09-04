@@ -10,8 +10,10 @@ namespace Gameplay
 
     public class SkillCheck : MonoBehaviour
     {
-        [SerializeField] private float needleSpeed = 100f;
-        [SerializeField] private float SkillCheckTo = 100f;
+        [SerializeField] private float needleSpeed = 200f;
+        [SerializeField] private float SkillCheckToWin = 5f;
+
+        private float skillcheckCounter = 0f;
         
         public RectTransform needle;
         public RectTransform safeZone;
@@ -20,13 +22,9 @@ namespace Gameplay
 
         private readonly float _maxZone = 150.0f;
         private readonly float _minZone = -150.0f;
-        
-        
 
-        void Start()
-        {
-            StartGame();
-        }
+        public event Action OnWin;
+        public event Action OnLose;
 
         void Update()
         {
@@ -37,9 +35,15 @@ namespace Gameplay
             }
         }
 
+        private void OnEnable()
+        {
+            StartGame();
+        }
+
         void StartGame()
         {
-            Invoke("RandomizeSafeZone", 0.1f);
+            RandomizeSafeZone();
+            skillcheckCounter = 0f;
             _isGameActive = true;
         }
 
@@ -73,6 +77,13 @@ namespace Gameplay
                 if (IsOverlapping(needleRect, safeZoneRect))
                 {
                     RandomizeSafeZone();
+                    skillcheckCounter++;
+
+                    if(skillcheckCounter >= SkillCheckToWin)
+                    {
+                        OnWin?.Invoke();
+                    }
+
                     Debug.Log("acertado");
                 }
                 else
@@ -105,6 +116,7 @@ namespace Gameplay
 
         void EndGame()
         {
+            OnLose?.Invoke();
             _isGameActive = false;
         }
     }
