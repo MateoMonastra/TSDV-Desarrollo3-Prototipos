@@ -1036,8 +1036,7 @@ MonoBehaviour:
   tornado: {fileID: 768760132}
   _playerParent: {fileID: 1379249227}
   isCapturingGhost: 0
-  ADMinigame: {fileID: 1040368584}
-  character: {fileID: 0}
+  ADMinigameObj: {fileID: 1040368584}
   areaSize: {x: 30, y: 30}
   areaCenter: {x: -8, y: -5}
 --- !u!65 &427589707

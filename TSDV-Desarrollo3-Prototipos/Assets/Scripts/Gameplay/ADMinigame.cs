@@ -33,11 +33,11 @@ public class ADMinigame : MonoBehaviour
 
     void Update()
     {
-        if(!_hasStarted)
+        if (!_hasStarted)
         {
             progressBar.fillAmount = minProgress;
         }
-        
+
         if (_hasStarted)
         {
             progressBar.fillAmount -= decreaseRate * Time.deltaTime;
@@ -75,8 +75,11 @@ public class ADMinigame : MonoBehaviour
 
     public void ResetMinigame()
     {
-        progressBar.fillAmount = minProgress;
+        if (progressBar)
+        {
+            progressBar.fillAmount = minProgress;
+        }
+
         _hasStarted = false;
     }
 }
-

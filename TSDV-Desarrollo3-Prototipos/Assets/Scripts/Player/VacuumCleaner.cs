@@ -2,6 +2,7 @@ using System;
 using Gameplay.GhostMechanics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Player
 {
@@ -31,11 +32,11 @@ namespace Player
         [SerializeField] private Transform _playerParent;
         public bool isCapturingGhost;
 
-        [SerializeField] private GameObject ADMinigame;
+        [SerializeField] private GameObject ADMinigameObj;
         private bool _wonCapture = false;
         private Collider ghost;
 
-        public Vector2 areaSize; 
+        public Vector2 areaSize;
         public Vector2 areaCenter;
 
         private void Start()
@@ -47,8 +48,8 @@ namespace Player
             transform.localScale = new Vector3(Mathf.Abs(((_leftBoundary.x * 2) * renderDistance)),
                 transform.localScale.y, transform.localScale.z);
 
-            ADMinigame.GetComponentInChildren<ADMinigame>().OnWin += HandleWin;
-            ADMinigame.GetComponentInChildren<ADMinigame>().OnLose += HandleLose;
+            ADMinigameObj.GetComponentInChildren<ADMinigame>().OnWin += HandleWin;
+            ADMinigameObj.GetComponentInChildren<ADMinigame>().OnLose += HandleLose;
         }
 
         private void HandleLose()
@@ -58,7 +59,7 @@ namespace Player
             ghost.transform.SetParent(null);
             TurnOff();
             isCapturingGhost = false;
-            ADMinigame.SetActive(false);
+            ADMinigameObj.SetActive(false);
 
             ghost.GetComponent<Ghost>().IsBeingVacuumed = false;
         }
@@ -67,7 +68,7 @@ namespace Player
         {
             _wonCapture = true;
 
-            ADMinigame.SetActive(false);
+            ADMinigameObj.SetActive(false);
 
             ghost.GetComponent<Ghost>().IsBeingVacuumed = true;
 
@@ -86,10 +87,13 @@ namespace Player
             //tornado.SetActive(false);
             isCapturingGhost = false;
 
-            ADMinigame.GetComponentInChildren<ADMinigame>().ResetMinigame();
-            ADMinigame.SetActive(false);
+            ADMinigameObj.GetComponentInChildren<ADMinigame>().ResetMinigame();
+            ADMinigameObj.SetActive(false);
 
-            ghost.GetComponent<Ghost>().IsBeingVacuumed = false;
+            if (ghost)
+            {
+                ghost.GetComponent<Ghost>().IsBeingVacuumed = false;
+            }
         }
 
         private void OnTriggerStay(Collider other)
@@ -125,13 +129,14 @@ namespace Player
 
             var direction = (target.position - other.transform.position).normalized;
 
-            if (other.gameObject.layer == LayerMask.NameToLayer($"Ghost") && !other.GetComponent<Ghost>().IsBeingVacuumed)
+            if (other.gameObject.layer == LayerMask.NameToLayer($"Ghost") &&
+                !other.GetComponent<Ghost>().IsBeingVacuumed)
             {
                 isCapturingGhost = true;
 
                 other.transform.SetParent(_playerParent);
-                
-                ADMinigame.SetActive(true);
+
+                ADMinigameObj.SetActive(true);
 
                 ghost = other;
 
