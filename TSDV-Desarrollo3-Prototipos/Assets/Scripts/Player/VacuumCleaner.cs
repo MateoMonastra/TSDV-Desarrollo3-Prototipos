@@ -52,11 +52,17 @@ namespace Player
             transform.localScale = new Vector3(Mathf.Abs(((_leftBoundary.x * 2) * renderDistance)),
                 transform.localScale.y, transform.localScale.z);
 
-            ADMinigameObj.GetComponentInChildren<ADMinigame>().OnWin += HandleADWin;
-            ADMinigameObj.GetComponentInChildren<ADMinigame>().OnLose += HandleADLose;
+            if (ADMinigameObj)
+            {
+                ADMinigameObj.GetComponentInChildren<ADMinigame>().OnWin += HandleADWin;
+                ADMinigameObj.GetComponentInChildren<ADMinigame>().OnLose += HandleADLose;
+            }
 
-            SkillcheckMinigameObj.GetComponent<SkillCheck>().OnWin += HandleSkillcheckWin;
-            SkillcheckMinigameObj.GetComponent<SkillCheck>().OnLose += HandleSkillcheckLose;
+            if (SkillcheckMinigameObj)
+            {
+                SkillcheckMinigameObj.GetComponent<SkillCheck>().OnWin += HandleSkillcheckWin;
+                SkillcheckMinigameObj.GetComponent<SkillCheck>().OnLose += HandleSkillcheckLose;
+            }
         }
 
         private void HandleSkillcheckLose()
@@ -120,7 +126,10 @@ namespace Player
             //ADMinigameObj.GetComponentInChildren<ADMinigame>().ResetMinigame();
             //ADMinigameObj.SetActive(false);
 
-            SkillcheckMinigameObj.SetActive(false);
+            if (SkillcheckMinigameObj)
+            {
+                SkillcheckMinigameObj.SetActive(false);
+            }
 
             if (ghost)
             {
@@ -169,11 +178,14 @@ namespace Player
                 other.transform.SetParent(_playerParent);
 
                 //ADMinigameObj.SetActive(true);
-                SkillcheckMinigameObj.SetActive(true);
+                if (SkillcheckMinigameObj)
+                {
+                    SkillcheckMinigameObj.SetActive(true);
+                }
 
                 ghost = other;
 
-                if(_wonSkillcheckCapture)
+                if (_wonSkillcheckCapture)
                 {
                     rb.AddForce(direction * speed, ForceMode.Impulse);
                     isCapturingGhost = false;
@@ -184,8 +196,6 @@ namespace Player
                 //    rb.AddForce(direction * speed, ForceMode.Impulse);
                 //    isCapturingGhost = false;
                 //}
-
-
             }
             else
             {

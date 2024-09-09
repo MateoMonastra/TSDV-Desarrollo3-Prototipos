@@ -372,6 +372,10 @@ MonoBehaviour:
   tornado: {fileID: 2120745066}
   _playerParent: {fileID: 0}
   isCapturingGhost: 0
+  ADMinigameObj: {fileID: 0}
+  SkillcheckMinigameObj: {fileID: 0}
+  areaSize: {x: 0, y: 0}
+  areaCenter: {x: 0, y: 0}
 --- !u!65 &137104806
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1529,7 +1533,6 @@ GameObject:
   - component: {fileID: 748683887}
   - component: {fileID: 748683886}
   - component: {fileID: 748683885}
-  - component: {fileID: 748683884}
   - component: {fileID: 748683883}
   - component: {fileID: 748683889}
   - component: {fileID: 748683890}
@@ -1547,10 +1550,10 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 748683880}
-  m_Enabled: 0
+  m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 4
+  m_Speed: 10
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -1562,33 +1565,6 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 3
   m_ObstacleAvoidanceType: 4
---- !u!54 &748683884
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 748683880}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 1
-  m_Constraints: 84
-  m_CollisionDetection: 0
 --- !u!136 &748683885
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1691,30 +1667,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 100
---- !u!145 &748683890
-SpringJoint:
+--- !u!114 &748683890
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 748683880}
-  m_ConnectedBody: {fileID: 0}
-  m_ConnectedArticulationBody: {fileID: 0}
-  m_Anchor: {x: 0, y: 1, z: 0}
-  m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  serializedVersion: 2
-  m_Spring: 10
-  m_Damper: 0.2
-  m_MinDistance: 0
-  m_MaxDistance: 0
-  m_Tolerance: 0.025
-  m_BreakForce: Infinity
-  m_BreakTorque: Infinity
-  m_EnableCollision: 0
-  m_EnablePreprocessing: 1
-  m_MassScale: 1
-  m_ConnectedMassScale: 1
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 549a50aa61b08f34291553fde2b1edc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _agent: {fileID: 748683883}
+  _range: 15
+  _centrePoint: {fileID: 1750967473}
+  _player: {fileID: 1001519006}
+  _safeDistance: 5
+  _patrolingSpeed: 800
+  _fleeSpeed: 1500
+  isBeingVacuumed: 0
 --- !u!1 &769186232
 GameObject:
   m_ObjectHideFlags: 0
@@ -2401,6 +2373,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8192
   vacuumAreaMeshRenderer: {fileID: 137104807}
+  struggleSpeed: 2
+  struggleAmplitude: 0.1
+  struggleTime: 0
 --- !u!114 &1001519008
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4635,7 +4610,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1750967473
 Transform:
   m_ObjectHideFlags: 0
@@ -4658,7 +4633,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1750967472}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
   m_Name: 

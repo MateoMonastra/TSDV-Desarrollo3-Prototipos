@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 
 namespace Gameplay.GhostMechanics
 {
@@ -16,7 +17,10 @@ namespace Gameplay.GhostMechanics
         [SerializeField] private float _patrolingSpeed = 3f;
         [SerializeField] private float _fleeSpeed = 5f;
 
-        public bool _isBeingVacuumed = false;
+        public bool isBeingVacuumed = false;
+        
+        private float _patrolingSpeedDeltaTimed;
+        private float _fleeSpeedDeltaTimed;
 
         private void Start()
         {
@@ -25,9 +29,12 @@ namespace Gameplay.GhostMechanics
 
         private void Update()
         {
+            _patrolingSpeedDeltaTimed = _patrolingSpeed * Time.deltaTime;
+            _fleeSpeedDeltaTimed = _fleeSpeed * Time.deltaTime;
+            
             float distance = Vector3.Distance(transform.position, _player.position);
 
-            if(_isBeingVacuumed)
+            if(isBeingVacuumed)
             {
                 return;
             }
@@ -65,20 +72,20 @@ namespace Gameplay.GhostMechanics
 
         private void Flee()
         {
-            if(_isBeingVacuumed)
+            if(isBeingVacuumed)
                 return;
             
             Vector3 directionToPlayer = transform.position - _player.position;
             Vector3 fleeDirection = transform.position + directionToPlayer.normalized * _safeDistance;
 
-            _agent.speed = _fleeSpeed;
+            _agent.speed = _fleeSpeedDeltaTimed;
             //TODO: Should be using _agent.Move();
             _agent.SetDestination(fleeDirection);
         }
 
         private void Patrol()
         {
-            _agent.speed = _patrolingSpeed;
+            _agent.speed = _patrolingSpeedDeltaTimed;
 
             if (RandomPoint(_centrePoint.position, _range, out var point))
             {
@@ -89,18 +96,18 @@ namespace Gameplay.GhostMechanics
 
         public void StartBeingVacuumed()
         {
-            if(_isBeingVacuumed)
+            if(isBeingVacuumed)
                 return;
 
             Debug.Log("fantasma aspirandose");
-            _isBeingVacuumed = true;
+            isBeingVacuumed = true;
             _agent.updatePosition = false;
         }
 
         public void StopBeingVacuumed()
         {
             _agent.updatePosition = true;
-            _isBeingVacuumed = false;
+            isBeingVacuumed = false;
             Patrol();
         }
     }

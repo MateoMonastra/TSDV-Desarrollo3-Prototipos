@@ -1,10 +1,7 @@
-using System;
 using System.Collections.Generic;
-using Player.FSM.States;
+using Player.FSM.States.Vacuum;
 using Player.FSM.States.WalIdle;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Serialization;
 using State = Player.FSM.States.State;
 
 namespace Player.FSM
@@ -13,14 +10,15 @@ namespace Player.FSM
     {
         private List<State> _states = new List<State>();
         
-        private Fsm _fsm;
         [SerializeField] private InputReaderFsm inputReaderFsm;
+        [SerializeField] private WalkIdleModel walkIdleModel;
 
+        private Fsm _fsm;
+        
         private Transition _walkIdleToVacuum;
         private Transition _walkIdleToWalkIdle;
         private Transition _vacuumToWalkIdle;
 
-        [SerializeField] private WalkIdleModel walkIdleModel;
 
         public void Start()
         {

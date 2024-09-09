@@ -13,7 +13,7 @@ namespace Gameplay.GhostMechanics
         {
             _timer += Time.deltaTime;
 
-            if (_timer >= _spawnInterval && !GetComponent<RandomPatrolling>()._isBeingVacuumed)
+            if (_timer >= _spawnInterval && !GetComponent<RandomPatrolling>().isBeingVacuumed)
             {
                 Instantiate(_prefab, spawnPoint.position, Quaternion.identity);
                 _timer = 0f;
