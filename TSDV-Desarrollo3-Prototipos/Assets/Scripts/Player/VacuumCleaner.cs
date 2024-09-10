@@ -17,8 +17,6 @@ namespace Player
         [SerializeField] private float renderDistance = 5.0f;
         [SerializeField] private LayerMask wallLayer;
 
-        [SerializeField] private ChallengeManager challengeManager;
-
         private bool _isActive;
         [SerializeField] private GameObject tornado;
         private Vector3? _collision;
@@ -36,7 +34,6 @@ namespace Player
         [SerializeField] private GameObject ADMinigameObj;
         [SerializeField] private GameObject SkillcheckMinigameObj;
 
-        private bool _wonCapture = false;
         private bool _wonSkillcheckCapture = false;
         private Collider ghost;
 
@@ -51,12 +48,6 @@ namespace Player
             _rightBoundary = _right * target.forward;
             transform.localScale = new Vector3(Mathf.Abs(((_leftBoundary.x * 2) * renderDistance)),
                 transform.localScale.y, transform.localScale.z);
-
-            if (ADMinigameObj)
-            {
-                ADMinigameObj.GetComponentInChildren<ADMinigame>().OnWin += HandleADWin;
-                ADMinigameObj.GetComponentInChildren<ADMinigame>().OnLose += HandleADLose;
-            }
 
             if (SkillcheckMinigameObj)
             {
@@ -82,29 +73,6 @@ namespace Player
             _wonSkillcheckCapture = true;
 
             SkillcheckMinigameObj.SetActive(false);
-
-            ghost.GetComponent<Ghost>().IsBeingVacuumed = true;
-
-            isCapturingGhost = false;
-        }
-
-        private void HandleADLose()
-        {
-            _wonCapture = false;
-            TeleportCharacter(ghost);
-            ghost.transform.SetParent(null);
-            TurnOff();
-            isCapturingGhost = false;
-            ADMinigameObj.SetActive(false);
-
-            ghost.GetComponent<Ghost>().IsBeingVacuumed = false;
-        }
-
-        private void HandleADWin()
-        {
-            _wonCapture = true;
-
-            ADMinigameObj.SetActive(false);
 
             ghost.GetComponent<Ghost>().IsBeingVacuumed = true;
 
@@ -197,7 +165,7 @@ namespace Player
                 //    isCapturingGhost = false;
                 //}
             }
-            else
+            else if(other.gameObject.layer != LayerMask.NameToLayer($"NotVacuumable"))
             {
                 rb.AddForce(direction * speed, ForceMode.Impulse);
             }

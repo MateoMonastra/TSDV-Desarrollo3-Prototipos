@@ -55,10 +55,8 @@ namespace Player
             else
             {
                 GetComponent<Running>().enabled = false;
-                struggleTime += Time.deltaTime * struggleSpeed;
                 _originalPosition = transform.localPosition;
                 GetComponent<RandomRotation>().enabled = true;
-                transform.localPosition = _originalPosition + transform.forward * Mathf.Sin(struggleTime) * struggleAmplitude;
                 _resetDirection = true;
             }
         }

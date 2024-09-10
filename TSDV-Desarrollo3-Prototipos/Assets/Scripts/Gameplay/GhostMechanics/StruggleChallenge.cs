@@ -6,22 +6,22 @@ using Random = UnityEngine.Random;
 
 namespace Gameplay.GhostMechanics
 {
-    public class StruggleChallenge : Challenge
-    {
-        public StruggleChallenge(int newDamageAmount = 10, float newDamageThreshold = 10, float newDamageTick = 1.0f)
-        {
-            damageAmount = newDamageAmount;
-            damageThreshold = newDamageThreshold;
-            damageTick = newDamageTick;
-        }
+    //public class StruggleChallenge : Challenge
+    //{
+    //    public StruggleChallenge(int newDamageAmount = 10, float newDamageThreshold = 10, float newDamageTick = 1.0f)
+    //    {
+    //        damageAmount = newDamageAmount;
+    //        damageThreshold = newDamageThreshold;
+    //        damageTick = newDamageTick;
+    //    }
 
-        public override void Interact(Ghost ghost)
-        {
-            
-        }
+    //    public override void Interact(Ghost ghost)
+    //    {
 
-        public override void OnEnd()
-        {
-        }
-    }
+    //    }
+
+    //    public override void OnEnd()
+    //    {
+    //    }
+    //}
 }
