@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Gameplay.GhostMechanics
 {
@@ -8,11 +9,13 @@ namespace Gameplay.GhostMechanics
         private Rigidbody _rb;
 
         public bool IsBeingVacuumed {  get; set; }
+        public bool stunned;
 
         void Start()
         {
             _rb = GetComponent<Rigidbody>();
             IsBeingVacuumed = false;
+            stunned = false;
         }
     }
 }

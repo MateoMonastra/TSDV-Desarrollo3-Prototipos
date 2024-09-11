@@ -3,6 +3,7 @@ using Gameplay;
 using Gameplay.GhostMechanics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Serialization;
 
 namespace Player
@@ -17,7 +18,7 @@ namespace Player
         [SerializeField] private float renderDistance = 5.0f;
         [SerializeField] private LayerMask wallLayer;
 
-        private bool _isActive;
+        public bool isActive;
         [SerializeField] private GameObject tornado;
         private Vector3? _collision;
         private Ray _ray;
@@ -29,12 +30,11 @@ namespace Player
         private Vector3 _rightBoundary;
 
         [SerializeField] private Transform _playerParent;
-        public bool isCapturingGhost;
+        [SerializeField] public bool isCapturingGhost;
 
         [SerializeField] private GameObject ADMinigameObj;
         [SerializeField] private GameObject SkillcheckMinigameObj;
-
-        private bool _wonSkillcheckCapture = false;
+        
         private Collider ghost;
 
         public Vector2 areaSize;
@@ -54,11 +54,12 @@ namespace Player
                 SkillcheckMinigameObj.GetComponent<SkillCheck>().OnWin += HandleSkillcheckWin;
                 SkillcheckMinigameObj.GetComponent<SkillCheck>().OnLose += HandleSkillcheckLose;
             }
+
+            isCapturingGhost = false;
         }
 
         private void HandleSkillcheckLose()
         {
-            _wonSkillcheckCapture = false;
             TeleportCharacter(ghost);
             ghost.transform.SetParent(null);
             TurnOff();
@@ -66,29 +67,34 @@ namespace Player
             SkillcheckMinigameObj.SetActive(false);
 
             ghost.GetComponent<Ghost>().IsBeingVacuumed = false;
+            ghost.GetComponent<RandomPatrolling>().enabled = true;
+            ghost.GetComponent<NavMeshAgent>().enabled = true;
+            ghost.GetComponent<TrashSpawning>().enabled = true;
+            
         }
 
         private void HandleSkillcheckWin()
         {
-            _wonSkillcheckCapture = true;
 
             SkillcheckMinigameObj.SetActive(false);
 
+            ghost.transform.SetParent(null);
             ghost.GetComponent<Ghost>().IsBeingVacuumed = true;
+            ghost.GetComponent<Ghost>().stunned = true;
 
             isCapturingGhost = false;
         }
 
         public void TurnOn()
         {
-            _isActive = true;
-            //tornado.SetActive(true);
+            isActive = true;
+            tornado.SetActive(true);
         }
 
         public void TurnOff()
         {
-            _isActive = false;
-            //tornado.SetActive(false);
+            isActive = false;
+            tornado.SetActive(false);
             isCapturingGhost = false;
 
             //ADMinigameObj.GetComponentInChildren<ADMinigame>().ResetMinigame();
@@ -112,11 +118,17 @@ namespace Player
 
         private void VacuumObject(Collider other)
         {
-            if (!_isActive)
+            if (!isActive)
             {
                 if (other.gameObject.layer == LayerMask.NameToLayer($"Ghost"))
                 {
                     other.transform.SetParent(null);
+                    if (!other.GetComponent<Ghost>().stunned)
+                    {
+                        other.GetComponent<RandomPatrolling>().enabled = true;
+                        other.GetComponent<NavMeshAgent>().enabled = true;
+                        other.GetComponent<TrashSpawning>().enabled = true;
+                    }
                 }
 
                 return;
@@ -143,29 +155,36 @@ namespace Player
             {
                 isCapturingGhost = true;
 
-                other.transform.SetParent(_playerParent);
-
-                //ADMinigameObj.SetActive(true);
-                if (SkillcheckMinigameObj)
-                {
-                    SkillcheckMinigameObj.SetActive(true);
-                }
-
-                ghost = other;
-
-                if (_wonSkillcheckCapture)
+                if (other.GetComponent<Ghost>().stunned)
                 {
                     rb.AddForce(direction * speed, ForceMode.Impulse);
                     isCapturingGhost = false;
                 }
+                else
+                {
 
-                //if (_wonCapture)
-                //{
-                //    rb.AddForce(direction * speed, ForceMode.Impulse);
-                //    isCapturingGhost = false;
-                //}
+                    other.GetComponent<RandomPatrolling>().enabled = false;
+                    other.GetComponent<NavMeshAgent>().enabled = false;
+                    other.GetComponent<TrashSpawning>().enabled = false;
+                    
+                    other.transform.SetParent(_playerParent);
+
+                    //ADMinigameObj.SetActive(true);
+                    if (SkillcheckMinigameObj)
+                    {
+                        SkillcheckMinigameObj.SetActive(true);
+                    }
+
+                    ghost = other;
+
+                    //if (_wonCapture)
+                    //{
+                    //    rb.AddForce(direction * speed, ForceMode.Impulse);
+                    //    isCapturingGhost = false;
+                    //}
+                }
             }
-            else if(other.gameObject.layer != LayerMask.NameToLayer($"NotVacuumable"))
+            else if (other.gameObject.layer != LayerMask.NameToLayer($"NotVacuumable") && !isCapturingGhost)
             {
                 rb.AddForce(direction * speed, ForceMode.Impulse);
             }

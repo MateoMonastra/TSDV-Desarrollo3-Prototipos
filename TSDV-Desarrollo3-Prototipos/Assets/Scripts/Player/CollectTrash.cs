@@ -7,10 +7,13 @@ namespace Player
     {
         private void OnTriggerEnter(Collider other)
         {
-            if(other.gameObject.layer != LayerMask.NameToLayer($"NotVacuumable"))
+            if(other.gameObject.layer == LayerMask.NameToLayer($"Ghost") || other.gameObject.layer == LayerMask.NameToLayer($"Trash"))
             {
-                other.gameObject.SetActive(false);
-                Debug.Log("Trash was Collected");
+                if (GetComponentInChildren<VacuumCleaner>().isActive)
+                {
+                    other.gameObject.SetActive(false);
+                    Debug.Log("Trash was Collected");
+                }
             }
         }
     }

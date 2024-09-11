@@ -8,7 +8,6 @@ namespace Player
         private Rigidbody _rb;
 
         [SerializeField] private LayerMask layerRaycast;
-        [SerializeField] private MeshRenderer vacuumAreaMeshRenderer = null;
 
         private Vector3 _originalPosition;
         public float struggleSpeed = 2.0f;
@@ -31,9 +30,7 @@ namespace Player
         {
             _mouseClicking = Input.GetMouseButton(0);
             _isCapturingGhost = GetComponentInChildren<VacuumCleaner>().isCapturingGhost;
-
-            vacuumAreaMeshRenderer.enabled = _mouseClicking;
-
+            
             if (!_isCapturingGhost)
             {
                 struggleTime = 0f;
