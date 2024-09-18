@@ -4,7 +4,6 @@ namespace Player
 {
     public class PlayerInterface : MonoBehaviour
     {
-        //Running etc
         private Rigidbody _rb;
 
         [SerializeField] private LayerMask layerRaycast;
@@ -25,7 +24,6 @@ namespace Player
             _resetDirection = false;
         }
 
-        // Update is called once per frame
         void Update()
         {
             _mouseClicking = Input.GetMouseButton(0);
@@ -77,6 +75,7 @@ namespace Player
                 transform.rotation = targetRotation;
             }
         }
+
 
     }
 }

@@ -24,27 +24,42 @@ public class Running : MonoBehaviour
 
     private void FixedUpdate()
     {
+        //if(_isClickPressed)
+        //{
+        //    if(Input.GetKey(KeyCode.W))
+        //    {
+        //        _dir = transform.forward;
+        //    }
+        //}
+
         Move();
     }
 
     private void Move()
     {
-        _counterMovement = new Vector3(-_rb.velocity.x * _counterMovementForce, 0, -_rb.velocity.z * _counterMovementForce);
-
-        _rb.AddForce(_dir.normalized * _movementForce + _counterMovement);
-
-        float angle = Vector3.SignedAngle(transform.forward, _dir, transform.up);
-
         if (!_isClickPressed)
         {
+            _counterMovement = new Vector3(-_rb.velocity.x * _counterMovementForce, 0, -_rb.velocity.z * _counterMovementForce);
+
+            _rb.AddForce(_dir.normalized * _movementForce + _counterMovement);
+
+            float angle = Vector3.SignedAngle(transform.forward, _dir, transform.up);
+
             transform.Rotate(transform.up, angle * Time.deltaTime * _rotationSpeed);
+        }
+        else
+        {
+            _counterMovement = new Vector3(-_rb.velocity.x * _counterMovementForce, 0, -_rb.velocity.z * _counterMovementForce);
+
+            _rb.AddForce(_dir.normalized * _movementForce + _counterMovement);
+
+            float angle = Vector3.SignedAngle(transform.forward, _dir, transform.up);
         }
     }
 
     public void SetDir(Vector3 newDir, bool shouldRot)
     {
         _dir = newDir;
-
         _isClickPressed = shouldRot;
     }
 
